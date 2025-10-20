@@ -15,9 +15,51 @@ export default function LoginPage() {
   const [contrasena, setContrasena] = useState('');
   const [error, setError] = useState('');
 
-  const handleLogin = (e: React.FormEvent) => {
+  const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
+    
+    const user = {
+        email: correo,
+        password: contrasena
+    }
+    
+    try{
+        const baseURI = "https://localhost:44353";
+        
+        const path = "/api/Persona/login" 
+        
+        const response = await fetch(baseURI + path, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(user),
+        });
 
+        if (response.ok) {
+            const data = await response.json();
+            console.log('Login successful:', data);
+            
+            //exchange the token and get the data from it
+            
+            const tokenInfo = data.jwtToken;
+
+            saveSession({ nombre: tokenInfo.nombre, rol: tokenInfo.rol as 'estudiante' | 'admin' | 'profesor' });
+            router.push('/acedemaApp');
+            //Handle login proccess
+            
+        } else {
+            const errorData = await response.json();
+            console.error('Login failed:', response.status, errorData);
+            setError('Credenciales incorrectas');
+            return;
+        }
+    }catch(e){
+        console.error('Internal Server Error:', e);
+        setError('Internal Server Error');
+        return;
+    }
+    /*
     const usuario = usuarios.find(
       (u) => u.correo === correo && u.contrasena === contrasena
     );
@@ -29,8 +71,8 @@ export default function LoginPage() {
 
     saveSession({ nombre: usuario.nombre, rol: usuario.rol as 'estudiante' | 'admin' | 'profesor' });
     router.push('/acedemaApp');
-
-    /*
+    
+    
     // Redirecciona según el rol
     if (usuario.rol === 'administrador') {
       router.push('/acedemaApp/Administrador');
