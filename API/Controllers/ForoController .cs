@@ -2,8 +2,7 @@
 using API.Models.Request;
 using API.Models.Response;
 using API.Services;
-using System.Collections.Generic;
-using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 
 namespace API.Controllers
 {
@@ -11,6 +10,7 @@ namespace API.Controllers
     /// Controlador para gestionar operaciones relacionadas con los foros.
     /// </summary>
     [ApiController]
+    [Authorize]
     [Route("api/[controller]")]
     public class ForoController : ControllerBase
     {
