@@ -1,6 +1,7 @@
 # Build folders
 bin/
 obj/
+out/
 
 # Visual Studio files
 .vs/
@@ -37,6 +38,9 @@ App_Data/
 *.DS_Store
 *.Thumbs.db
 acedema-back/
-Api/obj
-Api/bin
+API/obj
+API/bin
+API/out
 Archivos*
+API/
+API/postgres-data
