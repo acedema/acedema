@@ -10,6 +10,7 @@ using API.Utils;
 namespace API.Controllers
 {
     [ApiController]
+    [Authorize]
     [Route("api/[controller]")]
     public class PersonaController : ControllerBase
     {
@@ -34,7 +35,7 @@ namespace API.Controllers
         /// </summary>
         /// <param name="personaId"></param>
         /// <returns>Respuesta con los datos de la persona o los errores ocurridos.</returns>
-        [Authorize]
+        [Authorize(Roles = "Administrador")]
         [HttpGet("obtenerPersona/{personaId:int}")]
         public async Task<ActionResult<ResOptenerPersona>> ObtenerPersona([FromRoute] int personaId)
         {
@@ -45,7 +46,6 @@ namespace API.Controllers
             return Ok(result);
         }
 
-        [Authorize]
         [HttpGet("obtenerMiPerfil")]
         public async Task<ActionResult<ResOptenerPersona>> ObtenerMiPerfil()
         {
@@ -68,7 +68,7 @@ namespace API.Controllers
         /// </summary>
         /// <param name="req">Datos de la persona a registrar.</param>
         /// <returns>Resultado del registro incluyendo errores o el ID generado.</returns>
-        [Authorize]
+        [Authorize(Roles = "Administrador")]
         [HttpPost("registrarPersona")]
         public async Task<ActionResult<ResRegistrarPersona>> RegistrarPersona([FromBody] ReqRegistrarPersona? req)
         {
@@ -86,7 +86,6 @@ namespace API.Controllers
         /// <param name="req">Correo, contraseña actual (temporal) y nueva contraseña.</param>
         /// <returns>Resultado del proceso de actualización de la contraseña.</returns>
         [HttpPost("actualizarContrasena")]
-        [Authorize]
         public async Task<ActionResult<ResRestablecerContrasena>> ActualizarContrasena([FromBody] ReqRestablecerContrasena? req)
         {
             if (req == null) return BadRequest();
@@ -108,6 +107,7 @@ namespace API.Controllers
         /// - 404 NotFound si el correo no está registrado.  
         /// - 500 InternalServerError si ocurrió un error durante la verificación o el envío del correo.
         /// </returns>
+        [AllowAnonymous]
         [HttpPost("solicitar-recuperacion")]
         public async Task<IActionResult> SolicitarRecuperacion([FromBody] ReqCorreo req)
         {
@@ -143,23 +143,22 @@ namespace API.Controllers
         /// - 400 BadRequest si faltan datos, el token es inválido o la contraseña es muy corta.  
         /// - 500 InternalServerError si ocurre un error al actualizar la contraseña.
         /// </returns>
-        [Authorize]
-        [HttpPost("restablecer-con-token")]
-        public async Task<IActionResult> RestablecerConToken ([FromBody] ReqRestablecerConToken? req)
-        {
-            if (req?.NuevaContrasena is null) return BadRequest();
-            
-            var email = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Email)?.Value;
-            
-            _logger.LogDebug("Email en token :: {}", email);
-            
-            if(email is null || !Validator.IsValidEmail(email)) return Unauthorized();
-
-            var res = await _logica.ActualizarContrasenaPorCorreo(email, req.NuevaContrasena);
-            
-            if(!res.Resultado) return Unauthorized(res);
-            return Ok(res);
-        }
+        // [HttpPost("restablecer-con-token")]
+        // public async Task<IActionResult> RestablecerConToken ([FromBody] ReqRestablecerConToken? req)
+        // {
+        //     if (req?.NuevaContrasena is null) return BadRequest();
+        //     
+        //     var email = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Email)?.Value;
+        //     
+        //     _logger.LogDebug("Email en token :: {}", email);
+        //     
+        //     if(email is null || !Validator.IsValidEmail(email)) return Unauthorized();
+        //
+        //     var res = await _logica.ActualizarContrasenaPorCorreo(email, req.NuevaContrasena);
+        //     
+        //     if(!res.Resultado) return Unauthorized(res);
+        //     return Ok(res);
+        // }
 
 
         /// <summary>
@@ -172,6 +171,7 @@ namespace API.Controllers
         /// - 401 Unauthorized si las credenciales son incorrectas.
         /// - 400 BadRequest si el request es nulo o inválido.
         /// </returns>
+        [AllowAnonymous]
         [HttpPost("login")]
         public async Task<IActionResult> Login([FromBody] ReqLoginPersona req)
         {
@@ -189,12 +189,11 @@ namespace API.Controllers
                 return Unauthorized(new { message = resLogin.Mensaje });
 
             // Usar el nombre del rol directamente desde la base de datos
-            var rolId = resLogin.Persona.IdRol;
+            var rol = resLogin.Persona.NombreRol;
 
             // Generar token con correo y rol real
-            var token = _jwtHelper.GenerarTokenLogin(resLogin.Persona.Correo, rolId);
-
-
+            var token = _jwtHelper.GenerarTokenLogin(resLogin.Persona.Correo, rol);
+            
             // Devolver respuesta 200 OK con el token y los datos relevantes del usuario
             return Ok(new
             {
@@ -220,7 +219,6 @@ namespace API.Controllers
         /// </summary>
         /// <param name="req">Datos del perfil a actualizar</param>
         /// <returns>Resultado de la operación</returns>
-        [Authorize]
         [HttpPut("actualizarMiPerfil")]
         public async Task<IActionResult> ActualizarMiPerfil([FromBody] ReqActualizarPerfil? req)
         {

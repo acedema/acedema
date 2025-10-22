@@ -4,34 +4,36 @@ using API.Models.Response;
 using API.Services;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 
 namespace API.Controllers
 {
     /// <summary>
-    /// Controlador para gestionar operaciones relacionadas con la matrícula escolar.
+    /// Controlador para gestionar operaciones relacionadas con la matrï¿½cula escolar.
     /// </summary>
     [ApiController]
+    [Authorize]
     [Route("api/[controller]")]
     public class MatriculaController : ControllerBase
     {
         private readonly LogicaMatricula _logica;
 
         /// <summary>
-        /// Constructor del controlador de matrícula.
+        /// Constructor del controlador de matrï¿½cula.
         /// </summary>
-        /// <param name="logica">Instancia de la lógica de negocio para matrícula.</param>
+        /// <param name="logica">Instancia de la lï¿½gica de negocio para matrï¿½cula.</param>
         public MatriculaController(LogicaMatricula logica)
         {
             _logica = logica;
         }
 
         /// <summary>
-        /// Obtiene la información de matrícula de un estudiante según su ID.
+        /// Obtiene la informaciï¿½n de matrï¿½cula de un estudiante segï¿½n su ID.
         /// </summary>
-        /// <param name="req">Objeto con el ID de la persona para buscar matrícula.</param>
+        /// <param name="req">Objeto con el ID de la persona para buscar matrï¿½cula.</param>
         /// <returns>
-        /// - 200 OK con la información de matrícula si se encuentra.  
-        /// - 400 BadRequest si el request es nulo o hay error en la búsqueda.
+        /// - 200 OK con la informaciï¿½n de matrï¿½cula si se encuentra.  
+        /// - 400 BadRequest si el request es nulo o hay error en la bï¿½squeda.
         /// </returns>
         [HttpPost("obtenerMatricula")]
         public async Task<ActionResult<ResOptenerMatricula>> ObtenerMatricula([FromBody] ReqOptenerMatricula req)
@@ -53,12 +55,12 @@ namespace API.Controllers
         }
 
         /// <summary>
-        /// Realiza el proceso de matrícula para un estudiante.
+        /// Realiza el proceso de matrï¿½cula para un estudiante.
         /// </summary>
         /// <param name="req">Objeto con los datos necesarios para matricular al estudiante.</param>
         /// <returns>
-        /// - 200 OK con la matrícula creada si todo sale bien.  
-        /// - 400 BadRequest si el request es nulo o la matrícula falla.
+        /// - 200 OK con la matrï¿½cula creada si todo sale bien.  
+        /// - 400 BadRequest si el request es nulo o la matrï¿½cula falla.
         /// </returns>
         [HttpPost("realizarMatricula")]
         public async Task<ActionResult<ResMatricular>> RealizarMatricula([FromBody] ReqMatricular req)
