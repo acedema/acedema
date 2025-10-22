@@ -37,7 +37,7 @@ public class JwtTokenHelper
         return new JwtSecurityTokenHandler().WriteToken(token);
     }
 
-    public string GenerarTokenLogin(string correo, int rol)
+    public string GenerarTokenLogin(string correo, string rol)
     {
         var jwtSettings = _configuration.GetSection("JwtSettings");
         var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSettings["SecretKey"]));
@@ -46,8 +46,8 @@ public class JwtTokenHelper
         var claims = new[]
         {
         new Claim(ClaimTypes.Email, correo),
-        new Claim(ClaimTypes.Role, rol.ToString()),
-        new Claim("tipo", "login")
+        new Claim(ClaimTypes.Role, rol),
+        new Claim("type", "login")
     };
 
         var token = new JwtSecurityToken(
