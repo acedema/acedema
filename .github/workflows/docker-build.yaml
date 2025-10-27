@@ -24,5 +24,5 @@ jobs:
       - name: Build the Docker image
         run: |
           docker build ./API --file ./API/Dockerfile --tag acedema/api:latest && \
-          docker tag acedema/api:latest ghcr.io/acedema/api:${{ github.sha } && \
-          docker push ghcr.io/acedema/api:${{ github.sha }
+          docker tag acedema/api:latest ghcr.io/acedema/api:${{ github.sha }} && \
+          docker push ghcr.io/acedema/api:${{ github.sha }}
