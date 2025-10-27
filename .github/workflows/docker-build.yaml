@@ -1,0 +1,19 @@
+name: Docker Image CI
+
+on:
+  push:
+    branches: ["develop"]
+
+  pull_request:
+    branches: ["develop"]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build the Docker image
+        run: docker build ./API --file ./API/Dockerfile --tag acedema/api:latest
+      - name: Push the Docker image
+        run: docker push acedema/api:latest
