@@ -22,6 +22,7 @@ namespace API.Controllers
         /// Constructor del controlador de matrcula.
         /// </summary>
         /// <param name="logica">Instancia de la lgica de negocio para matrcula.</param>
+
         public MatriculaController(LogicaMatricula logica)
         {
             _logica = logica;
