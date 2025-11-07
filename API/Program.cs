@@ -29,7 +29,7 @@ builder.Services.AddScoped<LogicaMatricula>();
 builder.Services.AddScoped<LogicaUtilitarios>();
 builder.Services.AddScoped<JwtTokenHelper>();
 builder.Services.AddScoped<LogicaForo>();
-
+builder.Services.AddScoped<LogicaClases>();
 
 builder.Services.AddScoped<BlobStorageService>(sp =>
 {
