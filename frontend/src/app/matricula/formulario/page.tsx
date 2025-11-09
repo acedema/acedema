@@ -1,9 +1,9 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
-import Navbar from '@/components/Navbar';
-import styles from './formulario.module.css';
-import { MatriculaData } from '@/lib/types';
+import { useState } from "react";
+import Navbar from "@/components/Navbar";
+import styles from "./formulario.module.css";
+import { MatriculaData } from "@/lib/types";
 
 export default function FormularioMatricula() {
   const [submitted, setSubmitted] = useState(false);
@@ -12,17 +12,22 @@ export default function FormularioMatricula() {
     event.preventDefault();
     const formData = new FormData(event.currentTarget);
     const data: MatriculaData = {
-      nombre: formData.get('nombre') as string,
-      edad: Number(formData.get('edad')),
-      email: formData.get('email') as string,
-      telefono: formData.get('telefono') as string,
-      instrumento: formData.get('instrumento') as string,
-      experiencia: formData.get('experiencia') as string,
+      nombre: formData.get("nombre") as string,
+      edad: Number(formData.get("edad")),
+      email: formData.get("email") as string,
+      telefono: formData.get("telefono") as string,
+      instrumento: formData.get("instrumento") as string,
+      experiencia: formData.get("experiencia") as string,
     };
 
     // Guardar en localStorage
-    const existingMatriculas = JSON.parse(localStorage.getItem('matriculas') || '[]');
-    localStorage.setItem('matriculas', JSON.stringify([...existingMatriculas, data]));
+    const existingMatriculas = JSON.parse(
+      localStorage.getItem("matriculas") || "[]",
+    );
+    localStorage.setItem(
+      "matriculas",
+      JSON.stringify([...existingMatriculas, data]),
+    );
 
     setSubmitted(true);
     event.currentTarget.reset();
@@ -35,7 +40,8 @@ export default function FormularioMatricula() {
         <div className={styles.formWrapper}>
           <h1 className={styles.title}>Formulario de Matrícula</h1>
           <p className={styles.subtitle}>
-            Estás a un paso de comenzar tu aventura musical. Por favor, completa tus datos y nos pondremos en contacto a la brevedad.
+            Estás a un paso de comenzar tu aventura musical. Por favor, completa
+            tus datos y nos pondremos en contacto a la brevedad.
           </p>
 
           {submitted ? (
@@ -74,11 +80,20 @@ export default function FormularioMatricula() {
                   </select>
                 </div>
                 <div className={`${styles.formGroup} ${styles.fullWidth}`}>
-                  <label htmlFor="experiencia">¿Tiene conocimiento musical previo? (Opcional)</label>
-                  <textarea id="experiencia" name="experiencia" rows={4} placeholder="Ej: Llevé 2 años de guitarra clásica, sé leer partituras, etc."></textarea>
+                  <label htmlFor="experiencia">
+                    ¿Tiene conocimiento musical previo? (Opcional)
+                  </label>
+                  <textarea
+                    id="experiencia"
+                    name="experiencia"
+                    rows={4}
+                    placeholder="Ej: Llevé 2 años de guitarra clásica, sé leer partituras, etc."
+                  ></textarea>
                 </div>
               </div>
-              <button type="submit" className={styles.submitButton}>Enviar solicitud</button>
+              <button type="submit" className={styles.submitButton}>
+                Enviar solicitud
+              </button>
             </form>
           )}
         </div>
