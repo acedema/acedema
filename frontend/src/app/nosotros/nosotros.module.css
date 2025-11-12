@@ -13,10 +13,9 @@
   margin-bottom: 2rem;
 }
 
-.headerText {
-  display: flex;
-  align-ite2s: center;
-  justify-content: space-between;
+.headerText { display: flex; 
+    align-items: center; 
+    justify-content: space-between;
 }
 
 .title {
@@ -194,6 +193,125 @@
   display: flex;
   align-items: center;
   gap: 0.5rem;
+}
+
+/* ====== Responsive ====== */
+
+/* Contenedor con ancho y padding lateral seguros */
+.container {
+    max-width: 1536px;
+    margin: 0 auto;
+    padding-left: 16px;
+    padding-right: 16px;
+}
+
+/* Achievements ) */
+.achievements {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1rem;
+}
+
+/* --- ≤ 1200px (laptops) --- */
+@media (max-width: 1200px) {
+    .title { font-size: 3.25rem; }
+    .subtitle { font-size: 0.95rem; }
+    .description { font-size: 1rem; }
+}
+
+/* --- ≤ 992px (tablets) --- */
+@media (max-width: 992px) {
+    /* Header textual más cómodo */
+    .headerText {
+        flex-direction: column;
+        gap: 0.5rem;
+        align-items: flex-start;
+    }
+    .title {
+        width: 100%;
+        font-size: 2.6rem;
+        line-height: 1.06;
+    }
+    .subtitle { font-size: 0.95rem; color: #3b3b3b; }
+
+    /* Imagen con bordes un poco menores */
+    .imageWrapper { border-radius: 1.25rem; }
+    .bandaimg { border-radius: 1.25rem; }
+
+    /* Texto general */
+    .textBlock p { font-size: 1rem; }
+
+    /* Mision/Vision/Metodologia: 2 columnas */
+    .cardWrapper {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 1.25rem 1rem;        /* fila/col */
+        padding: 1.5rem 0;
+    }
+    .card {
+        height: auto;             /* deja crecer contenido */
+        min-height: 260px;
+        padding: 1.5rem;
+        border-radius: 1.25rem;
+    }
+    .iconCircle {
+        width: 52px; height: 52px; font-size: 1.4rem;
+        top: 1.25rem; right: 1.25rem;
+    }
+    .titleCard { font-size: 1.75rem; }
+    .paragraph { font-size: 0.95rem; line-height: 1.55; }
+
+    /* Achievements a 2 columnas */
+    .achievements {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    /* Lista de valores con respiro lateral */
+    .listValues { padding: 1.5rem; }
+    .titleList { font-size: 2.25rem; }
+}
+
+/* --- ≤ 600px (phones) --- */
+@media (max-width: 600px) {
+    .title { font-size: 2.1rem; }
+    .subtitle { font-size: 0.9rem; }
+
+    .bandaimg {
+        aspect-ratio: 16/9;       /* recorte limpio en celular */
+        object-fit: cover;
+        width: 100%;
+        height: auto;
+        border-radius: 1rem;
+    }
+
+    /* Mision/Vision/Metodologia: 1 columna */
+    .cardWrapper {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+        padding: 1rem 0;
+    }
+    .card {
+        min-height: unset;
+        padding: 1.25rem;
+        border-radius: 1rem;
+    }
+    .iconCircle {
+        width: 46px; height: 46px; font-size: 1.25rem;
+        top: 1rem; right: 1rem;
+    }
+    .titleCard { font-size: 1.5rem; }
+
+    /* Achievements a 1 columna */
+    .achievements { grid-template-columns: 1fr; }
+
+    /* Lista de valores: pills mas compactos */
+    .titleList { font-size: 2rem; }
+    .description { font-size: 0.95rem; margin-bottom: 2rem; }
+    .list { gap: 0.75rem; }
+    .list li {
+        font-size: 0.95rem;
+        padding: 0.65rem 1.1rem;
+    }
 }
 
 

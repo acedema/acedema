@@ -1,6 +1,7 @@
 import Image from 'next/image';
 import styles from './Header.module.css';
 
+
 interface Achievement {
   title: string;
   description: string;
@@ -29,6 +30,7 @@ const Header: React.FC<HeaderProps> = ({ title, subtitle, imageUrl, imageAlt, te
           width={1200}
           height={600}
           className={styles.bandaimg}
+          sizes="(max-width: 600px) 100vw, (max-width: 992px) 900px, 1200px"
         />
       </div>
       <div className={styles.contentSection}>

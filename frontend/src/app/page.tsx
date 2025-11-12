@@ -3,6 +3,7 @@
 import styles from './page.module.css'
 import Navbar from '@/components/Navbar';
 import Image from 'next/image';
+import { FaInstagram, FaFacebook, FaWhatsapp } from "react-icons/fa";
 
 export default function Home() {
   return (
@@ -128,15 +129,21 @@ export default function Home() {
             </div>
 
             {/* Columna derecha */}
-            <div className={styles.footerColumn}>
-              <p className={styles.followText}>Síguenos</p>
-              <div className={styles.socialIcons}>
-                <a href="#"><div className={styles.circleIcon}>⭘</div></a>
-                <a href="#"><div className={styles.circleIcon}>⭘</div></a>
-                <a href="#"><div className={styles.circleIcon}>⭘</div></a>
-                <a href="#"><div className={styles.circleIcon}>⭘</div></a>
+              {/* Columna derecha */}
+              <div className={styles.footerColumn}>
+                  <p className={styles.followText}>Síguenos</p>
+                  <div className={styles.socialIcons}>
+                      <a href="https://www.instagram.com/acedemasanrafael?igsh=MWFxcW9idThzdWw5cA==" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
+                          <div className={styles.circleIcon}><FaInstagram /></div>
+                      </a>
+                      <a href="https://www.facebook.com/share/16HUHgngcw/?mibextid=wwXIfr" target="_blank" rel="noopener noreferrer" aria-label="Facebook">
+                          <div className={styles.circleIcon}><FaFacebook /></div>
+                      </a>
+                      <a href="https://wa.me/50686696541" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp">
+                          <div className={styles.circleIcon}><FaWhatsapp /></div>
+                      </a>
+                  </div>
               </div>
-            </div>
           </div>
 
           <div className={styles.footerBottom}>
