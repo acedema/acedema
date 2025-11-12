@@ -117,7 +117,99 @@
 }
 
 .formButton:hover {
-  background-color: #fff;
-  color: #001636;
+  background-color: #c38611;
+  color: #fff;
   transform: translateY(-3px);
 }
+
+/* ====== Responsive  ====== */
+
+/* padding lateral seguro en todo el contenedor */
+.container { padding-left: 16px; padding-right: 16px; }
+
+/* --- ≤ 1200px (laptops) --- */
+@media (max-width: 1200px) {
+    .textBlock { font-size: 1rem; }
+    .textBlock h2 { font-size: 2.1rem; }
+
+    .formPrompt { font-size: 2.5rem; }
+    .formSubtitle { font-size: 1rem; max-width: 520px; }
+    .formButtonSection { max-width: 760px; padding: 3rem 1.75rem; }
+}
+
+/* --- ≤ 992px (tablets) --- */
+@media (max-width: 992px) {
+    .contentSection { gap: 1.5rem; margin-bottom: 3rem; }
+
+    .textBlock li { font-size: 1rem; padding: 0.9rem; }
+    .infoBlock p { font-size: 0.98rem; }
+
+    /* CTA mas flexible: evita altura fija */
+    .ctaSection {
+        height: auto;
+        min-height: 52vh;
+        padding: 2rem 1.25rem;
+        border-radius: 1.25rem;
+    }
+
+    .formButtonSection {
+        margin: 2.5rem auto;
+        max-width: 680px;
+        padding: 2.25rem 1.5rem;
+        border-radius: 1.25rem;
+    }
+
+    .formPrompt { font-size: 2.1rem; }
+    .formSubtitle { font-size: 0.98rem; margin-bottom: 1.5rem; }
+    .formButton { font-size: 1.1rem; padding: 0.9rem 2.25rem; }
+}
+
+/* --- ≤ 600px (celular) --- */
+@media (max-width: 600px) {
+    .container { padding-top: 2rem; }
+
+    .textBlock { font-size: 0.98rem; }
+    .textBlock h2 { font-size: 1.8rem; }
+    .textBlock ul { margin-top: 0.75rem; }
+    .textBlock li {
+        gap: 0.75rem;
+        padding: 0.8rem;
+        font-size: 0.95rem;
+        border-radius: 0.6rem;
+    }
+
+    .contentSection { gap: 1.25rem; margin-top: 1.5rem; margin-bottom: 2.5rem; }
+
+    .ctaSection {
+        padding: 1.25rem;
+        border-radius: 1rem;
+        min-height: 44vh;
+    }
+
+    .formButtonSection {
+        margin: 1.5rem auto 0;
+        max-width: 100%;
+        padding: 1.5rem 1rem;
+        border-radius: 1rem;
+    }
+
+    .formPrompt { font-size: 1.7rem; margin-bottom: 0.75rem; }
+    .formSubtitle {
+        font-size: 0.95rem;
+        line-height: 1.55;
+        max-width: 100%;
+        margin-bottom: 1.25rem;
+    }
+    .formButton {
+        width: 100%;                     /* boton ancho completo en celular */
+        font-size: 1rem;
+        padding: 0.85rem 1.25rem;
+    }
+}
+
+/* --- ≤ 400px (celulares pequeños) — afinado fino --- */
+@media (max-width: 400px) {
+    .textBlock h2 { font-size: 1.6rem; }
+    .formPrompt { font-size: 1.55rem; }
+}
+

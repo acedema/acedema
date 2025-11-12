@@ -50,24 +50,25 @@
 }
 
 .ctaButton {
-  display: inline-block;
-  margin-top: 2rem;
-  padding: 0.75rem 2rem;
-  background-color: #001636;
-  color: #c38611;
-  font-family: var(--font-geist-mono);
-  font-weight: 600;
-  border-radius: 9999px;
-  text-decoration: none;
-  transition: background-color 0.3s ease;
-  border: 2px solid #c38611;
+    display: inline-block;
+    margin-top: 2rem;
+    padding: 0.75rem 2rem;
+    background-color:  #c38611;
+    color: #001636; /* texto dorado */
+    font-family: var(--font-geist-mono);
+    font-weight: 600;
+    border-radius: 9999px;
+    text-decoration: none;
+    border: 2px solid  #c38611;
+    transition: background-color 0.3s ease, color 0.3s ease, transform 0.3s ease;
 }
 
 .ctaButton:hover {
-  background-color: #12325a;
-  color: white;
-  border-color: #12325a;
+    background-color:  #c38611; /* mantiene fondo oscuro */
+    color: #fff;           
+    transform: translateY(-3px);
 }
+
 
 /* About Section */
 .sectionAbout {
@@ -276,22 +277,24 @@
 }
 
 .ctaButtonPrimary {
-  display: inline-block;
-  padding: 0.75rem 2rem;
-  background-color: #c38611;
-  color: #001636;
-  font-family: var(--font-geist-mono);
-  font-weight: 600;
-  border-radius: 9999px;
-  text-decoration: none;
-  transition: background-color 0.3s ease;
-  border: 2px solid #c38611;
+    display: inline-block;
+    padding: 0.75rem 2rem;
+    background-color: #c38611;
+    color:#001636;           
+    font-family: var(--font-geist-mono);
+    font-weight: 600;
+    border-radius: 9999px;
+    text-decoration: none;
+    border: 2px solid  #c38611;
+    transition: background-color 0.3s ease, color 0.3s ease, transform 0.3s ease;
 }
 
 .ctaButtonPrimary:hover {
-  background-color: #fff;
-  color: #001636;
+    background-color: #c38611;     
+    color: #fff;
+    transform: translateY(-3px); /* efecto de elevación */
 }
+
 
 
 /* Footer Section */
@@ -421,5 +424,129 @@
 .madeBy span {
   color: #c38611;
 }
+
+/* =========================
+   Responsive helpers
+   ========================= */
+
+/* <= 1200px (laptops) */
+@media (max-width: 1200px) {
+    .text { font-size: 7rem; }                 
+    .stats { gap: 1.25rem; }
+    .ctaContent { max-width: 520px; }
+}
+
+/* <= 992px (tablets apaisado) */
+@media (max-width: 992px) {
+    .hero { height: 70vh; }                    /* menos alto en tablets */
+    .background {
+        top: 8px;
+        width: 94%;
+        height: 88%;
+        border-radius: 1.5rem;
+    }
+    .subtitle { font-size: 1.25rem; }
+    .text { font-size: 5rem; }                 /* titulo reduce */
+    .sectionAbout {
+        flex-direction: column;
+        gap: 1.25rem;
+        padding: 2.5rem 1rem;                    /* respiración lateral */
+    }
+    .aboutStats, .aboutInfo { border-radius: 1.25rem; }
+    .aboutInfo {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 1rem;
+    }
+    .aboutText { padding: 1.5rem 1rem; }
+    .aboutImage { justify-content: center; }
+    .aboutImage img {
+        max-width: min(520px, 100%);             /* imagen fluida */
+        height: auto;
+        border-left-width: 8px;                  /* borde mas fino */
+    }
+    .benefitsTitle { font-size: 2.25rem; }
+    .cardsContainer { justify-content: center; }
+    .card {
+        flex: 1 1 calc(50% - 1rem);              /* 2 por fila */
+        min-width: 260px;
+    }
+    .ctaSection {
+        height: auto;                            /* deja crecer el contenido */
+        min-height: 50vh;
+        padding: 2rem 1rem;
+        border-radius: 1.25rem;
+    }
+}
+
+/* <= 768px (tablets vertical / celulares grandes) */
+@media (max-width: 768px) {
+    .hero { height: 60vh; }
+    .content { padding: 1.5rem 1rem; }
+    .subtitle { font-size: 1.1rem; }
+    .text { font-size: 3.5rem; line-height: 0.95; }
+    .ctaButton { padding: 0.65rem 1.5rem; }
+
+    .statNumber { font-size: 2.25rem; }
+    .statLabel { font-size: 1rem; }
+
+    .benefitsTitle { font-size: 2rem; margin-bottom: 1.5rem; }
+    .card { padding: 1.25rem 1.25rem 2rem; }
+
+    .ctaTitle { font-size: 2rem; }
+    .ctaSubtitle { font-size: 0.95rem; }
+
+    .footerContainer {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    .footerColumn { min-width: 100%; }
+    .footerCenter { min-width: 100%; }
+
+    .newsletterForm {
+        flex-direction: column;                  /* input y boton en columna */
+        align-items: stretch;
+        gap: 0.75rem;
+    }
+    .newsletterForm input {
+        width: 100%;
+        max-width: none;
+    }
+    .newsletterForm button {
+        width: 100%;
+    }
+}
+
+/* <= 480px (celulares) */
+@media (max-width: 480px) {
+    .hero { height: 52vh; }
+    .background {
+        top: 6px;
+        width: 96%;
+        height: 86%;
+        border-radius: 1rem;
+    }
+    .text { font-size: 2.75rem; }
+    .subtitle { font-size: 1rem; }
+
+    .sectionAbout { padding: 2rem 0.75rem; }
+    .aboutText { padding: 1rem 0.5rem; }
+    .aboutText h2 { font-size: 1.5rem; }
+
+    .cardsContainer { gap: 1rem; }
+    .card {
+        flex: 1 1 100%;                          /* 1 por fila */
+        min-width: 0;
+    }
+
+    .ctaSection { padding: 1.25rem; }
+    .ctaContent { padding: 1rem; max-width: 100%; }
+    .ctaTitle { font-size: 1.75rem; }
+    .ctaSubtitle { font-size: 0.9rem; }
+
+    .circleIcon { width: 36px; height: 36px; }
+    .footer { padding: 3rem 1rem 1.5rem; }
+}
+
 
 

@@ -81,3 +81,84 @@
   transition: transform 0.4s;
 }
 
+/* ====== Responsive  ====== */
+
+/*  padding lateral seguro */
+.container { padding: 0 16px; }
+
+/* boton hamburguesa (oculto en desktop) */
+.menuButton {
+    display: none;
+    background: transparent;
+    border: 0;
+    padding: 8px;
+    cursor: pointer;
+    line-height: 0;
+    color: inherit;
+}
+
+/* icono hamburguesa */
+.hamburger,
+.hamburger::before,
+.hamburger::after {
+    content: "";
+    display: block;
+    width: 22px;
+    height: 2px;
+    background: currentColor;
+    border-radius: 2px;
+    transition: transform 0.25s ease, opacity 0.2s ease;
+}
+.hamburger { position: relative; }
+.hamburger::before { position: relative; top: -6px; }
+.hamburger::after  { position: relative; top:  4px; }
+
+/* animación a "X" cuando está abierto */
+.open .hamburger { transform: rotate(45deg); }
+.open .hamburger::before { transform: translateY(6px) rotate(90deg); }
+.open .hamburger::after  { opacity: 0; transform: translateY(-6px); }
+
+/* menu movil (cerrado por defecto) */
+.mobileMenu {
+    display: none;
+    position: absolute;
+    left: 0; right: 0; top: 100%;
+    background: var(--background, #fff);
+    color: var(--foreground, #000);
+    border-top: 1px solid rgba(0,0,0,0.08);
+    box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+    padding: 8px 12px;
+    z-index: 49; /* por debajo del header para eventos */
+}
+.mobileMenu.open {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+.mobileLink {
+    padding: 10px 12px;
+    border-radius: 8px;
+    color: inherit;
+    text-decoration: none;
+    font-weight: 500;
+}
+.mobileLink:hover { background: rgba(0,0,0,0.06); }
+
+/* <= 992px: ocultar links desktop; mostrar hamburguesa y logo redondo */
+@media (max-width: 992px) {
+    .links { display: none; }
+    .menuButton { display: inline-flex; align-items: center; justify-content: center; }
+
+    /* muestra logo circular y reduce tipografía del h1 */
+    .logoContainer img { display: inline-block; }
+    .logo h1 { font-size: 1.375rem; }
+}
+
+/* opcional: navbar pegadita y con fondo sutil al hacer scroll */
+.scrollednav {
+    position: sticky;
+    top: 0;
+    backdrop-filter: saturate(140%) blur(6px);
+    background: color-mix(in oklch, var(--background) 90%, transparent);
+    border-bottom: 1px solid rgba(0,0,0,0.06);
+}

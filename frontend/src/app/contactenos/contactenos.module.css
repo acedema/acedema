@@ -7,36 +7,194 @@
   margin: 0 auto;
 }
 
-.questionsSection {
-  margin: 4rem auto;
-  max-width: 900px;
-  padding: 2rem;
-  background-color: #f9f9f9;
-  border-radius: 2rem;
+/* === Secciones  === */
+.contactCardsSection {
+    padding: 2.5rem 1rem;
+    background: #f3f4f6; /* gris muy suave */
 }
 
-.questionsTitle {
-  font-family: var(--font-bebas-neue);
-  font-size: 2.5rem;
-  color: #001636;
-  text-align: center;
-  margin-bottom: 2rem;
+.contactCardsWrap {
+    max-width: 1400px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1.5rem;
 }
 
-.questionsList {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-  font-size: 1.1rem;
-  line-height: 1.8;
-  color: #333;
+.contactCard {
+    position: relative;
+    background: #ffffff;
+    border-radius: 1rem;
+    padding: 2rem 1.5rem 2.25rem;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
-.questionsList li {
-  padding: 1rem;
-  border-bottom: 1px solid #eee;
+/* Ícono circular superior */
+.contactIcon {
+    width: 72px;
+    height: 72px;
+    border-radius: 9999px;
+    background: #001636;          /* azul oscuro */
+    color: #ffffff;
+    display: grid;
+    place-items: center;
+    font-size: 1.6rem;
+    margin-bottom: 1rem;
 }
 
-.questionsList li:last-child {
-  border-bottom: none;
+/* Titulo grande (Bebas) */
+.contactTitle {
+    font-family: var(--font-bebas-neue);
+    font-size: 2.25rem;
+    color: #c38611;
+    text-align: center;
+    margin: 0.25rem 0 0.5rem;
+}
+
+/* Subtexto gris */
+.contactSub {
+    font-family: var(--font-geist-mono);
+    color: #4b5563;
+    font-size: 1rem;
+    text-align: center;
+    margin: 0 0 0.25rem;
+}
+
+/* Dato destacado (hora grande) */
+.contactEmphasis {
+    font-family: var(--font-geist-mono);
+    color: #001636;
+    font-size: 1.25rem;
+    font-weight: 700;
+    text-align: center;
+    margin: 0.15rem 0 0.25rem;
+}
+
+/* Links (correo/whatsapp) */
+.contactLink,
+.contactLinkBig {
+    color: #001636;
+    text-decoration: none;
+    font-family: var(--font-geist-mono);
+    font-weight: 700;
+    text-align: center;
+    transition: color 0.2s ease, transform 0.2s ease;
+}
+
+.contactLinkBig { font-size: 1.5rem; }
+.contactLink { font-size: 1rem; }
+
+.contactLink:hover,
+.contactLinkBig:hover {
+    color: #c38611;               /* dorado */
+    transform: translateY(-1px);
+}
+
+/* Barra dorada inferior */
+.accentBar {
+    position: absolute;
+    left: 1.25rem;
+    right: 1.25rem;
+    bottom: 1rem;
+    height: 4px;
+    background: #c38611;
+    border-radius: 9999px;
+}
+
+/* Boton */
+.primaryLink {
+    display: inline-block;
+    margin-top: 1rem;
+    padding: 0.6rem 1.5rem;
+    background-color: #c38611;
+    color: #001636;
+    font-weight: 600;
+    border-radius: 9999px;
+    text-decoration: none;
+    border: 2px solid #c38611;
+    transition: background-color 0.3s ease, color 0.3s ease, transform 0.3s ease;
+}
+
+.primaryLink:hover {
+    background-color: #c38611;
+    color: #fff;
+    transform: translateY(-3px);
+}
+
+.titleCard {
+    font-family: var(--font-bebas-neue);
+    font-size: 2rem;
+    color: #001636;
+    margin-bottom: 0.75rem;
+}
+
+/* Mapa  */
+.mapCard {
+    background-color: #001636;
+    color: #fff;
+    border-radius: 1.5rem;
+    padding: 2rem;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+}
+
+.mapCard .titleCard {
+    color: #c38611;
+    margin-top: 1rem;
+}
+
+.mapCard .paragraph {
+    color: #e8e8e8;
+}
+
+.mapFrameWrapper {
+    margin-top: 1.5rem;
+    width: 100%;
+    border-radius: 1rem;
+    overflow: hidden;
+    aspect-ratio: 16 / 9;
+    background: #fff;
+}
+
+.mapFrame {
+    width: 100%;
+    height: 100%;
+    border: 0;
+    display: block;
+}
+
+.mapActions {
+    text-align: center;
+    margin-top: 1.5rem;
+}
+
+.mapActions .primaryLink {
+    background-color: #c38611;
+    border-color: #c38611;
+    color: #001636;
+}
+.mapActions .primaryLink:hover {
+    background-color:#c38611;
+    color: #fff;
+}
+
+/* Responsive */
+@media (max-width: 992px) {
+    .contactCardsWrap {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+    .contactTitle { font-size: 2rem; }
+    .contactIcon { width: 64px; height: 64px; font-size: 1.4rem; }
+}
+
+@media (max-width: 600px) {
+    .contactCardsWrap {
+        grid-template-columns: 1fr;
+    }
+    .contactCard { padding: 1.75rem 1.25rem 2rem; }
+    .contactIcon { width: 56px; height: 56px; font-size: 1.25rem; }
+    .contactTitle { font-size: 1.9rem; }
+    .contactLinkBig { font-size: 1.35rem; }
 }

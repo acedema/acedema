@@ -76,3 +76,78 @@
   font-size: 1rem;
   margin: 0;
 }
+
+/* ============== Responsive ============== */
+
+/* padding lateral seguro en todas las vistas */
+.header { padding: 0 16px; }
+
+/* Achievements como grid adaptable (mantiene desktop) */
+.achievements {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1rem;
+}
+
+/* <= 1200px (laptops) */
+@media (max-width: 1200px) {
+    .title { font-size: 3.25rem; }           
+    .subtitle { font-size: 0.95rem; }
+}
+
+/* <= 992px (tablets) */
+@media (max-width: 992px) {
+    .headerText {
+        flex-direction: column;                 /* título y subtítulo en columna */
+        align-items: flex-start;
+        gap: 0.5rem;
+    }
+    .title {
+        width: 100%;                            /* evitar recortes */
+        font-size: 2.75rem;
+        line-height: 1.05;
+    }
+    .subtitle {
+        font-size: 0.95rem;
+        color: #3b3b3b;
+    }
+    .imageWrapper { border-radius: 1.25rem; }
+    .bandaimg { border-radius: 1.25rem; }
+
+    .contentSection { gap: 1.5rem; }
+    .textBlock p { font-size: 1rem; }
+
+    .achievements {
+        grid-template-columns: repeat(2, minmax(0, 1fr));  /* 2 por fila */
+    }
+    .achievement {
+        padding: 1.25rem 1rem;
+    }
+    .achievement h3 { font-size: 1.75rem; }
+    .achievement p { font-size: 0.95rem; }
+}
+
+/* <= 600px (celulares) */
+@media (max-width: 600px) {
+    .title { font-size: 2.1rem; }
+    .subtitle { font-size: 0.9rem; }
+
+    .imageWrapper { border-radius: 1rem; }
+    .bandaimg {
+        border-radius: 1rem;
+        aspect-ratio: 16/9;                     /* asegura recorte bonito  */
+        object-fit: cover;
+        width: 100%;
+        height: auto;
+    }
+
+    .contentSection { margin-top: 1.25rem; gap: 1rem; }
+    .textBlock p { font-size: 0.95rem; line-height: 1.55; }
+
+    .achievements {
+        grid-template-columns: 1fr;             /* 1 por fila */
+        gap: 0.75rem;
+    }
+    .achievement h3 { font-size: 1.5rem; }
+    .achievement p { font-size: 0.9rem; }
+}
