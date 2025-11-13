@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "API", "API\API.csproj", "{F
 EndProject
 Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "build", "Build\build.fsproj", "{AE39E79B-C693-4B41-BC95-CB760AB8D233}"
 EndProject
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "GithubWebhook", "GithubWebhook\GithubWebhook.fsproj", "{B3F24386-E2C9-404F-8686-AD5A7AE1B2DB}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -24,5 +26,9 @@ Global
 		{AE39E79B-C693-4B41-BC95-CB760AB8D233}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AE39E79B-C693-4B41-BC95-CB760AB8D233}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AE39E79B-C693-4B41-BC95-CB760AB8D233}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B3F24386-E2C9-404F-8686-AD5A7AE1B2DB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B3F24386-E2C9-404F-8686-AD5A7AE1B2DB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B3F24386-E2C9-404F-8686-AD5A7AE1B2DB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B3F24386-E2C9-404F-8686-AD5A7AE1B2DB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
