@@ -1,17 +1,16 @@
-'use client';
+"use client";
 
-import styles from './nosotros.module.css';
-import Navbar from '@/components/Navbar';
-import Header from '@/components/Header';
-import Image from 'next/image';
-import { FaHeart, FaEye, FaChalkboardTeacher } from 'react-icons/fa';
+import styles from "./nosotros.module.css";
+import Navbar from "@/components/Navbar";
+import Header from "@/components/Header";
+// import Image from 'next/image';
+import { FaHeart, FaEye, FaChalkboardTeacher } from "react-icons/fa";
 
 const achievements = [
-  { title: '+10 años', description: 'de experiencia musical' },
-  { title: '+500 alumnos', description: 'formados con excelencia' },
-  { title: '+12 instrumentos', description: 'enseñados en todos los niveles' },
+  { title: "+10 años", description: "de experiencia musical" },
+  { title: "+500 alumnos", description: "formados con excelencia" },
+  { title: "+12 instrumentos", description: "enseñados en todos los niveles" },
 ];
-
 
 export default function Nosotros() {
   return (
@@ -36,7 +35,9 @@ export default function Nosotros() {
               </div>
               <h2 className={styles.titleCard}>Misión</h2>
               <p className={styles.paragraph}>
-                Fomentar el amor por la música y brindar una formación artística integral mediante clases personalizadas, creando un espacio accesible y profesional para el desarrollo musical.
+                Fomentar el amor por la música y brindar una formación artística
+                integral mediante clases personalizadas, creando un espacio
+                accesible y profesional para el desarrollo musical.
               </p>
             </div>
 
@@ -46,7 +47,9 @@ export default function Nosotros() {
               </div>
               <h2 className={styles.titleCard}>Visión</h2>
               <p className={styles.paragraph}>
-                Ser reconocidos como una institución de referencia en educación musical a nivel nacional, destacando por nuestra calidad docente, calidez humana y compromiso con cada estudiante.
+                Ser reconocidos como una institución de referencia en educación
+                musical a nivel nacional, destacando por nuestra calidad
+                docente, calidez humana y compromiso con cada estudiante.
               </p>
             </div>
 
@@ -56,7 +59,10 @@ export default function Nosotros() {
               </div>
               <h2 className={styles.titleCard}>Nuestra metodología</h2>
               <p className={styles.paragraph}>
-                Cada estudiante recibe atención personalizada de acuerdo con su experiencia y nivel. El proceso inicia con una entrevista y, si es necesario, una prueba corta de solfeo para ubicarlo adecuadamente.
+                Cada estudiante recibe atención personalizada de acuerdo con su
+                experiencia y nivel. El proceso inicia con una entrevista y, si
+                es necesario, una prueba corta de solfeo para ubicarlo
+                adecuadamente.
               </p>
             </div>
           </div>
@@ -65,7 +71,9 @@ export default function Nosotros() {
         <section className={styles.listValues}>
           <h2 className={styles.titleList}>Nuestros Valores</h2>
           <p className={styles.description}>
-            En ACEDEMA, nuestros valores guían cada clase, cada nota y cada interacción. Son la base sobre la que construimos una comunidad comprometida y apasionada por la música.
+            En ACEDEMA, nuestros valores guían cada clase, cada nota y cada
+            interacción. Son la base sobre la que construimos una comunidad
+            comprometida y apasionada por la música.
           </p>
           <ul className={styles.list}>
             <li>Respeto</li>
@@ -76,8 +84,6 @@ export default function Nosotros() {
           </ul>
         </section>
       </div>
-
     </div>
   );
 }
-

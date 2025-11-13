@@ -15,9 +15,17 @@ export interface ReqRegistrarPersona {
   };
 }
 
+export interface MatriculaData {
+  nombre: string;
+  edad: number;
+  email: string;
+  telefono: string;
+  instrumento: string;
+  experiencia: string;
+}
+
 /** Respuesta de registrarPersona */
 export interface ResRegistrarPersona {
   resultado: boolean;
   listaDeErrores: string[];
 }
-
