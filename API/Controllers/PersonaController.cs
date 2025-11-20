@@ -6,6 +6,7 @@ using System.Security.Claims;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.AspNetCore.Authorization;
 using API.Utils;
+using API.Models.Entities;
 
 namespace API.Controllers
 {
@@ -58,6 +59,20 @@ namespace API.Controllers
             var resultado = await _logica.ObtenerPersonaPorCorreoAsync(email);
 
             if (!resultado.Resultado) return NotFound(resultado);
+
+            return Ok(resultado);
+        }
+        
+        
+        [Authorize(Roles = "Administrador")]
+        [HttpGet("obtenerProfesores")]
+        public async Task<ActionResult<List<Persona>>> ObtenerProfesores()
+        {
+            const int idRolProfesor = 3;
+            var resultado = await _logica.ObtenerPersonasPorRolAsync(idRolProfesor);
+
+            if (resultado == null || !resultado.Any())
+                return NotFound("No se encontraron profesores registrados.");
 
             return Ok(resultado);
         }

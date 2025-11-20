@@ -283,6 +283,53 @@ namespace API.Services
 
             return res;
         }
+        
+        public async Task<List<Persona>> ObtenerPersonasPorRolAsync(int idRol)
+        {
+            _logger.LogDebug("Obtener Personas Por Rol Inicio :: {}", idRol);
+
+            const string sql = """
+                               SELECT 
+                                   p.id_persona AS PersonaId,
+                                   p.num_cedula AS NumCedula,
+                                   p.fecha_nacimiento AS FechaNacimiento,
+                                   p.primer_nombre AS PrimerNombre,
+                                   p.segundo_nombre AS SegundoNombre,
+                                   p.primer_apellido AS PrimerApellido,
+                                   p.segundo_apellido AS SegundoApellido,
+                                   p.correo AS Correo,
+                                   p.direccion AS Direccion,
+                                   p.telefono_1 AS Telefono1,
+                                   p.telefono_2 AS Telefono2,
+                                   p.fecha_registro AS FechaRegistro,
+                                   p.id_rol AS IdRol,
+                                   r.nombre AS NombreRol,
+                                   p.puesto AS Puesto,
+                                   p.cedula_responsable AS CedulaResponsable
+                               FROM persona p
+                               INNER JOIN roles r ON p.id_rol = r.id_rol
+                               WHERE p.id_rol = @idRol
+                               """;
+
+            try
+            {
+                using var conn = new NpgsqlConnection(_connectionString);
+                var resultado = await conn.QueryAsync<Persona>(sql, new { idRol });
+                _logger.LogDebug("Cantidad de profesores encontrados: {}", resultado.Count());
+                return resultado.ToList();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error al obtener personas por rol");
+                return new List<Persona>();
+            }
+        }
+        
+        
+        
+        
+        
+        
 
         /// <summary>
         /// Actualiza la contraseña de un usuario autenticado que ingresó con la temporal.
