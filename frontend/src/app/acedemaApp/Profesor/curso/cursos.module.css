@@ -1,0 +1,407 @@
+.container {
+    max-width: 1536px;
+    margin: 0 auto;
+    padding: 2rem 16px;
+    display: flex;
+    flex-direction: column;
+}
+
+/*  Barra y botones */
+.topBar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.searchWrapper {
+    flex: 0 0 auto;
+    width: 400px;              /* largo */
+    display: flex;
+    align-items: center;
+    transform: translateY(10px);
+    padding: 0.55rem 0.9rem 0.55rem 1.1rem;
+    border-radius: 9999px;
+    background: #f3eaf8;
+    border: 1px solid #aeaeae;
+}
+
+.leftButtons {
+    position: absolute;
+    left: 0;
+    margin-left: 2rem;         /* Mantiene los botones a la izquierda */
+    margin-top: 6rem;
+    display: flex;
+    gap: 0.75rem;
+
+}
+
+/* Botones redondos */
+.iconButton {
+    width: 2.8rem;
+    height: 2.8rem;
+    border-radius: 9999px;
+    border: none;
+    background: #0D0F36; 
+    color: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.25);
+    transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
+}
+
+.iconButton:hover {
+    transform: translateY(-1px) scale(1.03);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.28);
+}
+
+.iconInner {
+    font-size: 1.4rem;
+    line-height: 1;
+}
+
+/* Etiqueta al dejar el mouse en un botn */
+.tooltip {
+    position: relative;
+}
+
+/* Tooltip generado */
+.tooltip:hover::after {
+    content: attr(data-tooltip);
+    position: absolute;
+    top: -45px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #001636;
+    color: white;
+    padding: 0.45rem 0.75rem;
+    font-size: 0.78rem;
+    border-radius: 8px;
+    white-space: nowrap;
+    z-index: 50;
+    opacity: 1;
+    pointer-events: none;
+    transition: opacity 0.15s ease-in-out;
+}
+
+/* Triangulito */
+.tooltip:hover::before {
+    content: "";
+    position: absolute;
+    top: -12px;
+    left: 50%;
+    transform: translateX(-50%);
+    border-width: 6px;
+    border-style: solid;
+    border-color: #001636 transparent transparent transparent;
+}
+
+/* Ocultos por defecto */
+.tooltip::before,
+.tooltip::after {
+    opacity: 0;
+}
+
+.tooltip:hover::before,
+.tooltip:hover::after {
+    opacity: 1;
+}
+
+
+/* Barra de bUsqueda */
+
+.searchInput {
+    flex: 1;
+    border: none;
+    outline: none;
+    background: transparent;
+    font-family: var(--font-geist-mono);
+    font-size: 0.95rem;
+    color: #222;
+}
+
+.searchInput::placeholder {
+    color: #777;
+}
+
+.searchIcon {
+    margin-left: 0.5rem;
+    font-size: 1.1rem;
+    opacity: 0.8;
+}
+
+.title {
+    font-family: var(--font-bebas-neue);
+    font-size: 3rem;
+    color: #001636;
+    margin: 0;
+    line-height: 1.05;
+}
+
+.subtitle {
+    font-family: var(--font-geist-mono);
+    color: #333;
+    margin-top: .25rem;
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    column-gap: 0.2rem;
+    row-gap: 0.1rem;     /*  espacio entre filas */
+    margin-top: 1.5rem;
+    justify-items: center;
+  
+}
+
+/*  TOASTS - Notificaciones generales*/
+.toastContainer {
+    position: fixed;
+    top: 4.5rem;
+    right: 1.5rem;
+    z-index: 9999;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.toast {
+    min-width: 260px;
+    max-width: 360px;
+    padding: 0.9rem 1.1rem;
+    border-radius: 0.75rem;
+    font-family: var(--font-geist-mono);
+    font-size: 0.9rem;
+    color: #fff;
+    box-shadow: 0 8px 26px rgba(0, 0, 0, 0.18);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+
+    opacity: 0;
+    transform: translateY(-10px) translateX(5px);
+    animation: toast-in 0.25s ease-out forwards;
+}
+
+/* Estados */
+.toastSuccess {
+    background-color: #0b7a3b; /* Verde */
+}
+
+.toastError {
+    background-color: #b3261e; /* Rojo */
+}
+
+.toastInfo {
+    background-color: #001636; /* Azul oscuro */
+}
+
+
+/* Animacion */
+@keyframes toast-in {
+    from {
+        opacity: 0;
+        transform: translateY(-12px) translateX(8px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) translateX(0);
+    }
+}
+
+
+/*  TOAST DE CONFIRMACION  */
+.toastConfirmWrapper {
+    top: 2rem !important;  
+}
+
+.toastConfirm {
+    background-color: #001636;
+    color: #fff;
+    display: flex;
+    flex-direction: column;
+    gap: 0.9rem;
+    padding-bottom: 1.2rem;
+    top: 2rem;
+}
+
+.confirmButtons {
+    display: flex;
+    justify-content: flex-end;
+    gap: 0.5rem;
+}
+
+.btnYes {
+    background: #b3261e;
+    border: none;
+    color: #fff;
+    padding: 0.35rem 0.9rem;
+    border-radius: 6px;
+    font-size: 0.85rem;
+    cursor: pointer;
+    transition: background 0.15s ease, transform 0.15s ease;
+}
+
+.btnYes:hover {
+    background: #8d1e19;
+    transform: translateY(-1px);
+}
+
+.btnNo {
+    background: #4a4a4a;
+    border: none;
+    color: #fff;
+    padding: 0.35rem 0.9rem;
+    border-radius: 6px;
+    font-size: 0.85rem;
+    cursor: pointer;
+    transition: background 0.15s ease, transform 0.15s ease;
+}
+
+.btnNo:hover {
+    background: #383838;
+    transform: translateY(-1px);
+}
+
+
+/* ---------- RESPONSIVE ---------- */
+/* pantallas medianas */
+@media (max-width: 1024px) {
+
+    .container {
+        padding: 1.5rem 1.25rem;
+    }
+
+    .searchWrapper {
+        width: 320px;
+        transform: translateY(6px);
+    }
+
+    .leftButtons {
+        margin-left: 1rem;
+        margin-top: 4.5rem;
+    }
+
+    .grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        column-gap: 0.6rem; /* espacio horizontal agradable */
+        row-gap: 1rem; 
+        justify-items: center; 
+    }
+}
+
+/* Celulares */
+@media (max-width: 640px) {
+    .container {
+        padding: 1.5rem 1rem;
+    }
+
+    .topBar {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 0.75rem;
+    }
+
+    .leftButtons {
+        position: static;   
+        margin: 0;
+        justify-content: flex-start;
+        order: 1;
+    }
+
+    .searchWrapper {
+        width: 100%;
+        max-width: none;
+        transform: translateY(0);  
+        order: 2;
+    }
+
+    .grid {
+        grid-template-columns: 1fr;
+        margin-top: 1.25rem;
+    }
+
+    .title {
+        font-size: 2rem;
+    }
+    
+}
+
+/* Celulares */
+@media (max-width: 640px) {
+
+    /* Contenedor de toasts: pegado arriba a la derecha */
+    .toastContainer {
+        position: fixed;
+        top: 1rem;
+        right: 0.75rem;
+        left: auto;
+        margin: 0;
+        width: auto;
+
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end; 
+        gap: 0.55rem;
+    }
+
+    /* Toast individual */
+    .toast {
+        min-width: 180px;
+        max-width: 240px;
+        padding: 0.7rem 0.9rem;
+        font-size: 0.8rem;
+        border-radius: 0.65rem;
+        box-shadow: 0 6px 20px rgba(0,0,0,0.22);
+        opacity: 0;
+        transform: translateY(-8px) translateX(6px);
+        animation: toast-in 0.28s ease-out forwards;
+    }
+
+    .toastConfirmWrapper {
+        top: 0.75rem !important;
+        right: 0.75rem !important;
+    }
+
+    .toastConfirm {
+        max-width: 260px; 
+        width: auto;
+        padding: 0.8rem 1rem 1rem;
+        font-size: 0.8rem;
+    }
+
+    .tooltip::before,
+    .tooltip::after {
+        display: none !important;
+        content: none !important;
+    }
+
+}
+
+/* Pantallas medianas  */
+@media (max-width: 1024px) {
+
+    .toastContainer {
+        top: 5.5rem;  
+        right: 1rem;
+    }
+
+    .toastConfirmWrapper {
+        top: 2rem !important;
+    }
+
+    .toast {
+        min-width: 220px;
+        max-width: 300px;
+        font-size: 0.85rem;
+        padding: 0.8rem 1rem;
+    }
+}
+
+
+
+

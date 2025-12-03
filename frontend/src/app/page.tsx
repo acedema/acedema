@@ -192,12 +192,11 @@ export default function Home() {
                 </a>
               </div>
             </div>
-          </div>
-
-          <div className={styles.footerBottom}>
-            <p className={styles.madeBy}>
-              Hecho por <span>ACEDEMA</span>
-            </p>
+            <div className={styles.footerBottom}>
+              <p className={styles.madeBy}>
+                Hecho por <span>ACEDEMA</span>
+              </p>
+            </div>
           </div>
         </footer>
       </div>
