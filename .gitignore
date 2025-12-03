@@ -2,6 +2,7 @@
 bin/
 obj/
 out/
+.direnv/
 
 # Visual Studio files
 .vs/
