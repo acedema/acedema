@@ -1,0 +1,240 @@
+.card {
+    max-width: 470px;
+    width: 100%;
+    display: grid;
+    grid-template-columns: 180px 1fr;
+    gap: 1.2rem;
+    align-items: center;
+    margin-top: 2rem;
+    background: #e9eaec;
+    border: 1px solid #e5e7eb;
+    border-radius: 0.8rem;
+    padding: 0.70rem 1rem;
+    box-shadow: 0 2px 6px rgba(0,0,0,.06);
+    transition: box-shadow .2s ease, transform .2s ease;
+    border: 1px solid #aeaeae;
+}
+
+.card:hover {
+    box-shadow: 0 8px 20px rgba(0,0,0,.08);
+    transform: translateY(-1px);
+}
+
+/* ---  imagen --- */
+.imageBox {
+    height: 130px;
+    width: 130px;
+    border-radius: 0.5rem;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #fff;
+    margin-left: 0.8rem;
+}
+
+.imageInner {
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+
+.image {
+    object-fit: contain;
+    padding: 0.5rem;
+}
+
+/* --- Texto --- */
+.content {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    height: 100%;
+}
+
+.title {
+    font-family: var(--font-bebas-neue);
+    font-size: 1.5rem;
+    color: #001636;
+    margin: 0;
+    line-height: 1.1;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    margin-top: 0.7rem;
+}
+
+.subtitle {
+    font-family: var(--font-geist-mono);
+    font-size: 1rem;
+    color: #111;
+    margin-top: 0.8rem; /*  separación debajo del titulo */
+}
+
+/* --- Acciones --- */
+.actions {
+    margin-top: auto;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 0.6rem;
+    padding-top: 0.5rem;
+}
+
+.roundBtn {
+    width: 33px;
+    height: 33px;
+    border-radius: 9999px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    color: white;
+    cursor: pointer;
+    transition: transform .15s ease, filter .15s ease, box-shadow .15s ease;
+    box-shadow: 0 2px 6px rgba(0,0,0,.12);
+    font-size: 0.9rem; /* ajusta el tamaño del icono */
+}
+
+.roundBtn:focus { outline: 2px solid rgba(0,0,0,.1); outline-offset: 2px; }
+.roundBtn:hover { transform: scale(1.05); filter: brightness(1.05); }
+
+/* Botones para grupos */
+.add {
+    background: #2563eb; /* azul */
+}
+.add:hover {
+    background: #1d4ed8;
+}
+
+.view {
+    background: #0f172a; /* azul muy oscuro */
+}
+.view:hover {
+    background: #020617;
+}
+
+/* Reutilizamos para editar/eliminar grupos */
+.edit { background: #16a34a; }      /* verde */
+.edit:hover { background: #15803d; }
+
+.delete { background: #dc2626; }    /* rojo */
+.delete:hover { background: #b91c1c; }
+
+/* Etiqueta al dejar el mouse en un boton */
+.tooltip {
+    position: relative;
+}
+
+.tooltip:hover::after {
+    content: attr(data-tooltip);
+    position: absolute;
+    top: -40px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #001636;
+    color: white;
+    padding: 0.4rem 0.7rem;
+    font-size: 0.75rem;
+    border-radius: 6px;
+    white-space: nowrap;
+    z-index: 50;
+    opacity: 1;
+    pointer-events: none;
+    transition: opacity 0.15s ease-in-out;
+}
+
+/* Triangulito debajo */
+.tooltip:hover::before {
+    content: "";
+    position: absolute;
+    top: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    border-width: 6px;
+    border-style: solid;
+    border-color: #001636 transparent transparent transparent;
+}
+
+/* Ocultos por defecto */
+.tooltip::before,
+.tooltip::after {
+    opacity: 0;
+}
+.tooltip:hover::before,
+.tooltip:hover::after {
+    opacity: 1;
+}
+
+/* --- Acordeon de grupos --- */
+.groupsWrapper {
+    overflow: hidden;
+    max-height: 0;
+    padding-top: 0;
+    margin-top: 0;
+    opacity: 0;
+    transition: 
+            max-height 0.45s cubic-bezier(.16,1,.3,1),
+            padding-top 0.35s ease-out,
+            margin-top 0.35s ease-out,
+            opacity 0.3s ease-out;
+}
+
+.groupsWrapperOpen {
+    max-height: 260px;      /* suficiente para varios grupos */
+    padding-top: 0.6rem;    /* aparece un espacio suave arriba */
+    margin-top: 0.4rem;     /* separa del contenido principal */
+    opacity: 1;
+}
+
+
+
+.groupsList {
+    margin-top: 0;
+    padding-top: 0;
+    border-top: none;
+
+    display: flex;
+    flex-direction: column;
+    gap: 0.45rem;
+}
+
+
+.groupRow {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.5rem;
+}
+
+.groupName {
+    font-size: 0.95rem;
+    font-family: var(--font-geist-mono);
+    color: #111827;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.groupActions {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+}
+
+.smallBtn {
+    width: 28px;
+    height: 28px;
+    font-size: 0.75rem;
+}
+
+/* --- Responsive --- */
+@media (max-width: 640px) {
+    .card {
+        grid-template-columns: 140px 1fr;
+        padding: 0.6rem;
+    }
+    .imageBox { height: 96px; }
+    .title { font-size: 1.35rem; }
+    .subtitle { font-size: 0.9rem; }
+}
