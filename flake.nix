@@ -54,6 +54,7 @@
                   dotnet_9.aspnetcore
                 ]
             )
+            nodejs
             netcoredbg
             clang
             # Other packages
