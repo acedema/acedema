@@ -113,12 +113,12 @@
 .hamburger::before { position: relative; top: -6px; }
 .hamburger::after  { position: relative; top:  4px; }
 
-/* animación a "X" cuando está abierto */
+/* animacion a "X" cuando esta abierto */
 .open .hamburger { transform: rotate(45deg); }
 .open .hamburger::before { transform: translateY(6px) rotate(90deg); }
 .open .hamburger::after  { opacity: 0; transform: translateY(-6px); }
 
-/* menu movil (cerrado por defecto) */
+/* menu celular (cerrado por defecto) */
 .mobileMenu {
     display: none;
     position: absolute;
@@ -144,17 +144,16 @@
 }
 .mobileLink:hover { background: rgba(0,0,0,0.06); }
 
-/* <= 992px: ocultar links desktop; mostrar hamburguesa y logo redondo */
+/* 92px: ocultar links desktop; mostrar hamburguesa y logo redondo */
 @media (max-width: 992px) {
     .links { display: none; }
     .menuButton { display: inline-flex; align-items: center; justify-content: center; }
 
-    /* muestra logo circular y reduce tipografía del h1 */
+    /* muestra logo circular y reduce tipografia del h1 */
     .logoContainer img { display: inline-block; }
     .logo h1 { font-size: 1.375rem; }
 }
 
-/* opcional: navbar pegadita y con fondo sutil al hacer scroll */
 .scrollednav {
     position: sticky;
     top: 0;

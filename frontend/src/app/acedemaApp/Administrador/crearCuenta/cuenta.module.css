@@ -1,0 +1,441 @@
+/* Fondo moderno y sutil */
+.cuenta {
+    min-height: 100vh;
+    background: linear-gradient(
+            180deg,
+            #f4f5fb 0%,
+            #f0f7ff 50%,
+            #fdf7f0 100%
+    );
+    display: flex;
+    flex-direction: column;
+}
+
+/* Centrado del contenido */
+.cuentaWrapper {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem 1rem;
+}
+
+/* Caja principal */
+.cuentaBox {
+    display: flex;
+    width: 100%;
+    max-width: 900px;            /* un poco más ancha para 2 columnas */
+    min-height: 520px;
+    background: #ffffff;
+    border-radius: 1.6rem;
+    overflow: hidden;
+    border: 1px solid #e3e7ef;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.06);
+    justify-content: center;
+}
+
+/* Formulario */
+.cuentaForm {
+    flex: 1;
+    padding: 2.4rem 2.6rem 2.2rem;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Título */
+.title {
+    font-size: 2.4rem;
+    font-family: var(--font-bebas-neue);
+    color: #001636;
+    margin-bottom: 1.4rem;
+    text-align: center;
+}
+
+/* GRID de campos (2 columnas) */
+.fieldsGrid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    column-gap: 2rem;
+    row-gap: 1.3rem;
+    margin-bottom: 1.8rem;
+}
+
+.field {
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+}
+
+.label {
+    font-family: var(--font-geist-mono);
+    font-size: 0.8rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color:  #000000;
+}
+
+/* Inputs elegantes */
+.input {
+    width: 100%;
+    padding: 0.8rem 1.05rem;
+    font-size: 0.95rem;
+    font-family: var(--font-geist-mono);
+    border-radius: 0.9rem;
+    border: 1px solid #cfd5df;
+    background: #f8fafc;
+    transition: all 0.25s ease;
+    margin-bottom: 0;
+}
+
+.input:focus {
+    outline: none;
+    border-color: #001636;
+    background: #ffffff;
+    box-shadow: 0 0 0 2px rgba(0, 22, 54, 0.1);
+}
+
+.textarea {
+    composes: input;
+    resize: vertical;
+    min-height: 76px;
+}
+
+/* Boton principal */
+.button {
+    width: 30%;
+    padding: 0.9rem 1.2rem;
+    border-radius: 0.9rem;
+    border: none;
+    cursor: pointer;
+    background: #c38611;
+    color: #fff;
+    font-family: var(--font-geist-mono);
+    font-weight: 600;
+    letter-spacing: 0.03rem;
+    transition: background-color 0.3s ease, color 0.3s ease, transform 0.3s ease;
+    margin: 1.2rem auto 0 auto;
+    display: block;
+}
+
+.button:hover {
+    background-color: #c38611;
+    color: #fff;
+    transform: translateY(-3px);
+}
+
+
+/* Selec de rol */
+.customSelect {
+    position: relative;
+    width: 100%;
+}
+
+.customSelectButton {
+    width: 100%;
+    padding: 0.8rem 1.05rem;
+    border-radius: 0.9rem;
+    border: 1px solid #cfd5df;
+    background: #f8fafc;
+    font-size: 0.95rem;
+    font-family: var(--font-geist-mono);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    cursor: pointer;
+    transition: all 0.25s ease;
+}
+
+.customSelectButton:hover,
+.customSelectButton:focus {
+    outline: none;
+    border-color: #001636;
+    background: #ffffff;
+    box-shadow: 0 0 0 2px rgba(0, 22, 54, 0.1);
+}
+
+.customSelectMenu {
+    position: absolute;
+    top: calc(100% + 0.25rem);
+    left: 0;
+    width: 100%;
+    background: #ffffff;
+    border-radius: 0.9rem;
+    box-shadow: 0 12px 30px rgba(15, 23, 42, 0.12);
+    padding: 0.4rem 0.3rem;
+    z-index: 20;
+}
+
+.arrow {
+    font-size: 0.9rem;
+    color: #6b7280;
+}
+
+.customSelectItem {
+    width: 100%;
+    padding: 0.5rem 1rem;
+    background: transparent;
+    border: none;
+    text-align: left;
+    font-size: 0.95rem;
+    color: #111;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    cursor: pointer;
+    border-radius: 0.7rem;
+}
+
+.customSelectItem:hover {
+    background-color: #f3f4f6;
+}
+
+.selectedItem {
+    background-color: #e9f0ff;
+    font-weight: 600;
+}
+
+.checkIcon {
+    font-size: 0.85rem;
+    color: #001636;
+}
+
+
+/* Selec de fecha */
+.customDate {
+    position: relative;
+    width: 100%;
+}
+
+.customDate::after {
+    content: "▾";
+    position: absolute;
+    right: 1rem;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 0.9rem;
+    color: #6b7280; /* igual a la flecha del rol */
+    pointer-events: none; /* no bloquea clicks */
+}
+
+
+.dateWrapper {
+    width: 100%;
+}
+
+/* Forzar ancho total del wrapper generado por react-datepicker */
+:global(.react-datepicker-wrapper) {
+    width: 100%;
+}
+
+:global(.react-datepicker__input-container) {
+    width: 100%;
+    display: block;
+}
+
+/* Input visual del datepicker */
+.dateInputCustom {
+    width: 100%;
+    padding: 0.8rem 1rem;
+    background: #f8fafc;
+    border: 1px solid #cfd5df;
+    border-radius: 0.9rem;
+    font-family: var(--font-geist-mono);
+    font-size: 0.95rem;
+    transition: all 0.25s ease;
+}
+
+.dateInputCustom:focus {
+    outline: none;
+    border-color: #001636;
+    background: #ffffff;
+    box-shadow: 0 0 0 2px rgba(0, 22, 54, 0.1);
+}
+
+.dateInputCustom::placeholder {
+    color: #000000 !important;
+    opacity: 1;
+}
+
+.arrow {
+    font-size: 0.9rem;
+    color: #6b7280;
+}
+
+
+
+/* Estilo del calendario */
+.calendar {
+    border-radius: 1rem;
+    padding: 0.6rem;
+    border: 1px solid #e5e7eb !important;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+}
+
+/* Días */
+.react-datepicker__day {
+    border-radius: 0.5rem !important;
+}
+
+.react-datepicker__day--selected,
+.react-datepicker__day--keyboard-selected {
+    background-color: #001636 !important;
+    color: white !important;
+}
+
+.react-datepicker__day:hover {
+    background-color: #e5e7eb !important;
+}
+
+/* Header del calendario */
+.react-datepicker__current-month {
+    font-family: var(--font-bebas-neue);
+    color: #001636;
+}
+
+/* Dropdowns */
+.react-datepicker__month-dropdown,
+.react-datepicker__year-dropdown {
+    border-radius: 0.5rem;
+}
+
+
+
+/* TOAST */
+.toast {
+    position: fixed;
+    top: 4.5rem;
+    right: 1.5rem;
+    padding: 0.9rem 1.3rem;
+    border-radius: 0.8rem;
+    font-family: var(--font-geist-mono);
+    font-size: 0.9rem;
+    color: white;
+    box-shadow: 0 4px 14px rgba(0,0,0,0.15);
+    animation: fadeInOut 3s ease forwards;
+    z-index: 9999;
+}
+
+/* success, error, warning coinciden con toast.type */
+.success {
+    background: #2aa773;
+}
+
+.error {
+    background: #e63946;
+}
+
+.warning {
+    background: #e63946;
+}
+
+@keyframes fadeInOut {
+    0% { opacity: 0; transform: translateY(-10px); }
+    10% { opacity: 1; transform: translateY(0); }
+    90% { opacity: 1; transform: translateY(0); }
+    100% { opacity: 0; transform: translateY(-10px); }
+}
+
+
+
+/* RESPONSIVE */
+
+/* Compu */
+@media (min-width: 1025px) {
+    .field {
+        width: 92%;              
+        margin-left: auto;
+        margin-right: auto;      /* centra todo el bloque */
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start; 
+    }
+
+    .input,
+    .dateInputCustom,
+    .textarea,
+    .customSelectButton {
+        width: 100%;             
+    }
+
+    .fieldsGrid {
+        column-gap: 3rem;
+    }
+}
+
+
+/* ipads */
+@media (max-width: 1024px) {
+    .cuentaWrapper {
+        padding: 2rem 1.5rem;
+    }
+
+    .cuentaBox {
+        max-width: 780px;
+        border-radius: 1.4rem;
+    }
+
+    .cuentaForm {
+        padding: 2.1rem 2rem 2rem;
+    }
+
+    .fieldsGrid {
+        column-gap: 1.4rem;
+        row-gap: 1.1rem;
+    }
+
+    .title {
+        font-size: 2.2rem;
+        margin-bottom: 1.2rem;
+    }
+
+    .button {
+        width: 40%;
+    }
+    
+    .toast {
+        top: 3rem;
+        right: 1rem;
+    }
+}
+
+/* Celulares */
+@media (max-width: 768px) {
+    .cuentaWrapper {
+        padding: 1.5rem 1rem;
+        align-items: flex-start;
+    }
+
+    .cuentaBox {
+        max-width: 100%;
+        min-height: auto;
+        border-radius: 1.2rem;
+        box-shadow: 0 4px 18px rgba(0, 0, 0, 0.05);
+    }
+
+    .cuentaForm {
+        padding: 1.8rem 1.4rem 1.6rem;
+    }
+
+    .fieldsGrid {
+        grid-template-columns: 1fr;   
+        column-gap: 0;
+        row-gap: 1rem;
+    }
+
+    .title {
+        font-size: 2rem;
+        margin-bottom: 1.1rem;
+    }
+
+    .button {
+        width: 100%;                 
+        margin-top: 1.4rem;
+    }
+
+    .toast {
+        top: 3rem;
+        right: 0.8rem;
+        left: 0.8rem;
+        text-align: center;
+    }
+}

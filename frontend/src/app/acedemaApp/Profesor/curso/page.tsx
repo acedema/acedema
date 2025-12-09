@@ -7,6 +7,7 @@ import ModalCrearCurso from '@/components/ModalCrearCurso';
 import { FaPlus, FaUsers, FaSearch } from "react-icons/fa"
 import { useState } from 'react';
 import Link from 'next/link';
+import Navbar from '@/components/ProfNavbar'
 
 
 type ToastType = 'success' | 'error' | 'info';
@@ -26,8 +27,6 @@ const MOCK: Curso[] = [
 
 
 ];
-
-
 
 export default function CursoPage() {
     const [cursos, setCursos] = useState<Curso[]>(MOCK);
@@ -126,6 +125,7 @@ export default function CursoPage() {
     
     return (
         <div>
+            <Navbar />
             {/* toast en general */}
             {toast && (
                 <div className={styles.toastContainer}>

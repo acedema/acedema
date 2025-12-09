@@ -1,7 +1,8 @@
 import { Container, Grid, Avatar, Typography, Paper, TextField } from '@mui/material';
 
 export default function PerfilPage() {
-  return (
+    /* Aca se haria la pagina donde el profesor ve su perfil, hay que mejorarla visualmente */
+    return (
     <Container
       maxWidth="md"
       sx={{
