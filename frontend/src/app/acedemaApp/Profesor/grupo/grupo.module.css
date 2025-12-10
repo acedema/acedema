@@ -12,6 +12,7 @@
     align-items: center;
     justify-content: center;
     gap: 1.5rem;
+    margin-top: -1.5rem;
     margin-bottom: 1.5rem;
 }
 
@@ -20,7 +21,7 @@
     width: 400px;              /* largo */
     display: flex;
     align-items: center;
-    transform: translateY(10px);
+    transform: translateY(0px);
     padding: 0.55rem 0.9rem 0.55rem 1.1rem;
     border-radius: 9999px;
     background: #f3eaf8;
@@ -178,42 +179,6 @@
 .btnNo:hover {
     background: #383838;
     transform: translateY(-1px);
-}
-
-
-
-/* boton volver  */
-.leftButtons {
-    position: absolute;
-    left: 0;
-    margin-left: 2rem;
-    margin-top: 3rem;
-    display: flex;
-    gap: 0.75rem;
-}
-
-.roundBtn {
-    width: 2.8rem;
-    height: 2.8rem;
-    border-radius: 9999px;
-    border: none;
-    background: #0D0F36;
-    color: #ffffff;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.25);
-    transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
-}
-
-.backBtn {
-    background: #001636;
-}
-
-.backBtn:hover {
-    transform: translateY(-1px) scale(1.03);
-    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.28);
 }
 
 /* Etiqueta al dejar el mouse en un boton */

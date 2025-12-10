@@ -5,7 +5,7 @@ import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 
-export default function Navbar() {
+export default function EstuNavbar() {
     const [scrolled, setScrolled] = useState(false);
     const [open, setOpen] = useState(false);
 
@@ -27,17 +27,16 @@ export default function Navbar() {
     }, [open]);
 
     const links = [
-        { href: '/', label: 'Inicio' },
-        { href: '/nosotros', label: 'Nosotros' },
-        { href: '/matricula', label: 'Matrícula' },
-        { href: '/cursos', label: 'Cursos' },
-        { href: '/contactenos', label: 'Contáctenos' },
-        { href: '/login', label: 'Iniciar Sesión' },
+        {href: '/acedemaApp/Estudiante/pagos', label: 'Pagos'},
+
+
     ];
 
     return (
         <nav className={`${styles.navbar} ${scrolled ? styles.scrollednav : ''}`}>
+            
             <div className={styles.container}>
+                
                 {/* logo */}
                 <div className={styles.logo}>
                     <Link href="/" className={styles.logoContainer}>
@@ -45,8 +44,8 @@ export default function Navbar() {
                         <Image
                             src="/Acedema.jpg"
                             alt="Logo ACEDEMA"
-                            width={500}
-                            height={500}
+                            width={400}
+                            height={400}
                             priority
                         />
                         <h1>ACEDEMA</h1>
@@ -73,7 +72,7 @@ export default function Navbar() {
                     aria-controls="mobile-menu"
                     onClick={() => setOpen((v) => !v)}
                 >
-                    <span className={styles.hamburger} />
+                    <span className={styles.hamburger}/>
                 </button>
             </div>
 

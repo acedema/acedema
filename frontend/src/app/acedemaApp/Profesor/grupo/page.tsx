@@ -7,6 +7,8 @@ import CardGrupo, { Curso, Grupo } from '@/components/CardGrupo';
 import ModalCrearGrupo, { GrupoInput } from '@/components/ModalCrearGrupo';
 import ModalEditarGrupo from '@/components/ModalEditarGrupo';
 import { useRouter } from 'next/navigation';
+import Navbar from '@/components/ProfNavbar'
+
 
 
 type ToastType = 'success' | 'error' | 'info';
@@ -20,11 +22,11 @@ type GroupsByCourse = Record<string, Grupo[]>;
 
 const MOCK_CURSOS: Curso[] = [
     { id: '1', nombre: 'Curso de guitarra', modalidad: 'Individual', imageUrl: '/instrumentos/guitarra.png' },
-    { id: '4', nombre: 'Curso de canto', modalidad: 'Grupal', imageUrl: '/imgs/canto.png' },
-    { id: '6', nombre: 'Curso de flauta', modalidad: 'Grupal', imageUrl: '/imgs/flauta.png' },
-    { id: '7', nombre: 'Curso de flauta', modalidad: 'Grupal', imageUrl: '/imgs/flauta.png' },
-    { id: '8', nombre: 'Curso de flauta', modalidad: 'Grupal', imageUrl: '/imgs/flauta.png' },
-    { id: '9', nombre: 'Curso de flauta', modalidad: 'Grupal', imageUrl: '/imgs/flauta.png' },
+    { id: '4', nombre: 'Curso de canto', modalidad: 'Grupal', imageUrl: '/instrumentos/guitarra.png' },
+    { id: '6', nombre: 'Curso de flauta', modalidad: 'Grupal', imageUrl: '/instrumentos/guitarra.png' },
+    { id: '7', nombre: 'Curso de flauta', modalidad: 'Grupal', imageUrl: '/instrumentos/guitarra.png' },
+    { id: '8', nombre: 'Curso de flauta', modalidad: 'Grupal', imageUrl: '/instrumentos/guitarra.png' },
+    { id: '9', nombre: 'Curso de flauta', modalidad: 'Grupal', imageUrl: '/instrumentos/guitarra.png' },
 ];
 
 const INITIAL_GROUPS: GroupsByCourse = {
@@ -191,6 +193,7 @@ export default function GrupoPage() {
 
     return (
         <div>
+            <Navbar />
             {/* Toast general */}
             {toast && (
                 <div className={styles.toastContainer}>
@@ -223,15 +226,6 @@ export default function GrupoPage() {
             )}
 
             <div className={styles.container}>
-                <div className={styles.leftButtons}>
-                    <button
-                        className={`${styles.roundBtn} ${styles.backBtn} ${styles.tooltip}`}
-                        data-tooltip="Volver"
-                        onClick={() => router.push('/acedemaApp/Profesor/curso')}
-                    >
-                        <FaArrowLeft size={16} />
-                    </button>
-                </div>
 
                 {/* Barra superior */}
                 <div className={styles.topBar}>

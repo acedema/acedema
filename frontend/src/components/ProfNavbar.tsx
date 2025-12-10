@@ -5,7 +5,7 @@ import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 
-export default function Navbar() {
+export default function ProfNavbar() {
     const [scrolled, setScrolled] = useState(false);
     const [open, setOpen] = useState(false);
 
@@ -27,12 +27,10 @@ export default function Navbar() {
     }, [open]);
 
     const links = [
-        { href: '/', label: 'Inicio' },
-        { href: '/nosotros', label: 'Nosotros' },
-        { href: '/matricula', label: 'Matrícula' },
-        { href: '/cursos', label: 'Cursos' },
-        { href: '/contactenos', label: 'Contáctenos' },
-        { href: '/login', label: 'Iniciar Sesión' },
+        { href: '/acedemaApp/Profesor/curso', label: 'Cursos' },
+        { href: '/acedemaApp/Profesor/grupo', label: 'Grupos' },
+
+
     ];
 
     return (
@@ -45,8 +43,8 @@ export default function Navbar() {
                         <Image
                             src="/Acedema.jpg"
                             alt="Logo ACEDEMA"
-                            width={500}
-                            height={500}
+                            width={400}
+                            height={400}
                             priority
                         />
                         <h1>ACEDEMA</h1>
