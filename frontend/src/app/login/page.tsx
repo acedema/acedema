@@ -137,6 +137,13 @@ export default function LoginPage() {
   return (
     <div className={styles.login}>
       <Navbar />
+        
+        {toast && (
+            <div className={`${styles.toast} ${toast.tipo === 'error' ? styles.toastError : styles.toastSuccess}`}>
+                {toast.mensaje}
+            </div>
+        )}
+        
       <div className={styles.loginWrapper}>
           <div className={`${styles.loginBox} ${transicionSuave ? styles.fadeOut : ''}`}>
           <div className={styles.loginForm}>
@@ -186,11 +193,6 @@ export default function LoginPage() {
           </div>
         </div>
       </div>
-        {toast && (
-            <div className={`${styles.toast} ${toast.tipo === 'error' ? styles.toastError : styles.toastSuccess}`}>
-                {toast.mensaje}
-            </div>
-        )}
     </div>
   );
 }

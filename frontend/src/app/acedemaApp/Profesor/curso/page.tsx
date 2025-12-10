@@ -6,7 +6,6 @@ import EditarCursoModal, { CourseInput} from '@/components/ModalEditarCurso'
 import ModalCrearCurso from '@/components/ModalCrearCurso';
 import { FaPlus, FaUsers, FaSearch } from "react-icons/fa"
 import { useState } from 'react';
-import Link from 'next/link';
 import Navbar from '@/components/ProfNavbar'
 
 
@@ -19,11 +18,11 @@ interface ToastState {
 
 const MOCK: Curso[] = [
     { id: '1', nombre: 'Curso de guitarra', modalidad: 'Individual', imageUrl: '/instrumentos/guitarra.png' },
-    { id: '4', nombre: 'Curso de canto', modalidad: 'Grupal', imageUrl: '/imgs/canto.png' },
-    { id: '6', nombre: 'Curso de flauta', modalidad: 'Grupal', imageUrl: '/imgs/flauta.png'},
-    { id: '7', nombre: 'Curso de flauta', modalidad: 'Grupal', imageUrl: '/imgs/flauta.png'},
-    { id: '8', nombre: 'Curso de flauta', modalidad: 'Grupal', imageUrl: '/imgs/flauta.png'},
-    { id: '9', nombre: 'Curso de flauta', modalidad: 'Grupal', imageUrl: '/imgs/flauta.png'},
+    { id: '4', nombre: 'Curso de canto', modalidad: 'Grupal', imageUrl: '/instrumentos/guitarra.png' },
+    { id: '6', nombre: 'Curso de flauta', modalidad: 'Grupal', imageUrl: '/instrumentos/guitarra.png'},
+    { id: '7', nombre: 'Curso de flauta', modalidad: 'Grupal', imageUrl: '/instrumentos/guitarra.png'},
+    { id: '8', nombre: 'Curso de flauta', modalidad: 'Grupal', imageUrl: '/instrumentos/guitarra.png'},
+    { id: '9', nombre: 'Curso de flauta', modalidad: 'Grupal', imageUrl: '/instrumentos/guitarra.png'},
 
 
 ];
@@ -170,16 +169,6 @@ export default function CursoPage() {
                         >
                             <FaPlus size={18} />
                         </button>
-                        {/* grupos */}
-                        <Link href="/acedemaApp/Profesor/grupo">
-                            <button
-                                type="button"
-                                className={`${styles.iconButton} ${styles.tooltip}`}
-                                data-tooltip="Grupos"
-                            >
-                                <FaUsers size={18} data-tooltip="Grupos" />
-                            </button>
-                        </Link>
                     </div>
 
                     <div className={styles.searchWrapper}>

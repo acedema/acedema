@@ -5,7 +5,7 @@ import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 
-export default function ProfNavbar() {
+export default function EstuNavbar() {
     const [scrolled, setScrolled] = useState(false);
     const [open, setOpen] = useState(false);
 
@@ -27,15 +27,16 @@ export default function ProfNavbar() {
     }, [open]);
 
     const links = [
-        { href: '/acedemaApp/Profesor/curso', label: 'Cursos' },
-        { href: '/acedemaApp/Profesor/grupo', label: 'Grupos' },
+        {href: '/acedemaApp/Estudiante/pagos', label: 'Pagos'},
 
 
     ];
 
     return (
         <nav className={`${styles.navbar} ${scrolled ? styles.scrollednav : ''}`}>
+            
             <div className={styles.container}>
+                
                 {/* logo */}
                 <div className={styles.logo}>
                     <Link href="/" className={styles.logoContainer}>
@@ -71,7 +72,7 @@ export default function ProfNavbar() {
                     aria-controls="mobile-menu"
                     onClick={() => setOpen((v) => !v)}
                 >
-                    <span className={styles.hamburger} />
+                    <span className={styles.hamburger}/>
                 </button>
             </div>
 
