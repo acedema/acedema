@@ -78,6 +78,7 @@ namespace API.Controllers
         /// </summary>
         /// <returns>Lista de foros.</returns>
         [HttpPost("obtenerForos")]
+        [Authorize]
         public async Task<ActionResult<ResObtenerForosPorRol>> Obtener([FromBody] ReqObtenerForosPorRol req)
         {
             var result = await _logica.ObtenerForosPorRolAsync(req);
