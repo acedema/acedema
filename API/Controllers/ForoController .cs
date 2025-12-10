@@ -10,7 +10,7 @@ namespace API.Controllers
     /// Controlador para gestionar operaciones relacionadas con los foros.
     /// </summary>
     [ApiController]
-    [Authorize]
+    [Authorize(Roles = "Administrador")]
     [Route("api/[controller]")]
     public class ForoController : ControllerBase
     {
