@@ -61,6 +61,25 @@ namespace API.Controllers
 
             return Ok(resultado);
         }
+        
+        /// <summary>
+        /// Obtiene las personas que pertenecen a un rol determinado.
+        /// </summary>
+        /// <param name="roleName"></param>
+        /// <example>localhost:5000/api/personas?roleName=Estudiante</example>
+        /// <returns>A list of all the personas with that role</returns>
+
+        [HttpGet("personas")]
+        [Authorize(Roles = "Administrador")]
+        public async Task<ActionResult<ResOptenerPersona>> GetPersonasByRole([FromQuery] string roleName)
+        {
+            if (string.IsNullOrEmpty(roleName)) return BadRequest();
+
+            var result = await _logica.GetPersonas(roleName);
+            
+            if (!result.Resultado) return BadRequest(result);
+            return Ok(result);
+        }
 
 
         /// <summary>
