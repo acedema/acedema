@@ -266,6 +266,7 @@ namespace API.Services
                     res.Mensaje = "Persona registrada correctamente.";
                     res.Persona = req.Persona;
                     res.Persona.PersonaId = idReturn.Value;
+                    res.PasswordTemporal = passwordPlano;
                 }
                 else
                 {

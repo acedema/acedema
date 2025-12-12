@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { saveSession } from '@/lib/auth';
 import styles from './login.module.css';
@@ -49,9 +49,17 @@ export default function LoginPage() {
   const [error, setError] = useState('');
   const [cargando, setCargando] = useState(false);
   const [mostrarClave, setMostrarClave] = useState(false);
-  const [transicionSuave, setTransicionSuave] = useState(false);
+  const [transicionSuave, setTransicionSuave] = useState(true);
   const [toast, setToast] = useState<{ mensaje: string; tipo: 'error' | 'success' } | null>(null);
 
+    // entra suave con transicion
+    useEffect(() => {
+        const t = setTimeout(() => {
+            setTransicionSuave(false); 
+        }, 20);
+
+        return () => clearTimeout(t);
+    }, []);
 
     const mostrarToast = (mensaje: string, tipo: 'error' | 'success' = 'error') => {
         setToast({ mensaje, tipo });
@@ -178,10 +186,22 @@ export default function LoginPage() {
               {error && <p className={styles.error}>{error}</p>}
             </form>
               <p className={styles.password}>
-                  ¿Olvidaste tú contraseña?{" "}
-                  <a href="">Recuperar</a>
+                  <a
+                      href="/cambiarClave"
+                      onClick={(e) => {
+                          e.preventDefault();           // evita navegación inmediata
+                          if (transicionSuave) return;  // evita doble click
+                          setTransicionSuave(true);     // activa fadeOut
+                          setTimeout(() => {
+                              router.push('/cambiarClave'); // navega despues de la animacion
+                          }, 400); 
+                      }}
+                  >
+                      Cambiar contraseña
+                  </a>
               </p>
-              
+
+
           </div>
           <div className={styles.loginImage}>
             <Image

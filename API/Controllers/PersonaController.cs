@@ -96,6 +96,21 @@ namespace API.Controllers
             if(res.Resultado) return Ok(res);
             return Unauthorized(res);
         }
+        
+        /// Permite a un usuario cambiar la clave inicial sin token
+        [AllowAnonymous]
+        [HttpPost("cambiar-clave-inicial")]
+        public async Task<ActionResult<ResRestablecerContrasena>> CambiarClaveInicial([FromBody] ReqRestablecerContrasena? req)
+        {
+            if (req == null) return BadRequest();
+            if (!Validator.IsValidEmail(req.Correo)) return BadRequest("Correo invalido");
+
+            var res = await _logica.ActualizarContrasenaAsync(req);
+
+            if (res.Resultado) return Ok(res);
+            return Unauthorized(res);
+        }
+
 
         /// <summary>
         /// Solicita la recuperación de contraseña para un correo registrado.
