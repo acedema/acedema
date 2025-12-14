@@ -311,8 +311,9 @@
     font-size: 0.9rem;
     color: white;
     box-shadow: 0 4px 14px rgba(0,0,0,0.15);
-    animation: fadeInOut 3s ease forwards;
+    animation: fadeInOut var(--toast-duration, 3s) ease forwards;
     z-index: 9999;
+    white-space: pre-line;
 }
 
 /* success, error, warning coinciden con toast.type */
@@ -327,6 +328,34 @@
 .warning {
     background: #e63946;
 }
+
+.toastContent {
+    display: flex;
+    gap: 0.9rem;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.toastText {
+    flex: 1;
+}
+
+.toastCopyBtn {
+    border: none;
+    cursor: pointer;
+    border-radius: 0.6rem;
+    padding: 0.45rem 0.7rem;
+    font-family: var(--font-geist-mono);
+    font-size: 0.85rem;
+    font-weight: 600;
+    background: rgba(255,255,255,0.18);
+    color: #fff;
+}
+
+.toastCopyBtn:hover {
+    background: rgba(255,255,255,0.28);
+}
+
 
 @keyframes fadeInOut {
     0% { opacity: 0; transform: translateY(-10px); }

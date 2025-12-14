@@ -339,6 +339,7 @@ namespace API.Services
                     res.Password = passwordPlano;
                     res.Persona = req.Persona;
                     res.Persona.PersonaId = idReturn.Value;
+                    res.PasswordTemporal = passwordPlano;
                 }
                 else
                 {
