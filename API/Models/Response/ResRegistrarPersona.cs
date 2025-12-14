@@ -6,6 +6,11 @@ namespace API.Models.Response
     {
         public Persona Persona { get; set; }
         public string PasswordTemporal { get; set; } = string.Empty;
+        
+        /// <summary>
+        /// Contraseña asociada a la operación.
+        /// </summary>
+        public string Password { get; set; }
     }
 }
 
