@@ -3,6 +3,8 @@ using API.Models.Request;
 using API.Models.Response;
 using Microsoft.Data.SqlClient;
 using System.Data;
+using Dapper;
+using Npgsql;
 
 namespace API.Services
 {
@@ -32,61 +34,51 @@ namespace API.Services
 
             try
             {
-                using var conn = new SqlConnection(_connectionString);
-                using var cmd = new SqlCommand("InsertarForo", conn)
-                {
-                    CommandType = CommandType.StoredProcedure
-                };
-
-                // Parámetros del stored procedure
-                cmd.Parameters.AddWithValue("@IdAdmin", req.AdminId);
-                cmd.Parameters.AddWithValue("@Titulo", req.Titulo);
-                cmd.Parameters.AddWithValue("@Descripcion", req.Descripcion);
-                cmd.Parameters.AddWithValue("@FechaRegistro", req.FechaRegistro);
-                cmd.Parameters.AddWithValue("@EsPublico", req.EsPublico);
-
-                // Parámetros de salida
-                var pError = new SqlParameter("@ErrorOccurred", SqlDbType.Int) { Direction = ParameterDirection.Output };
-                var pMensaje = new SqlParameter("@ErrorMensaje", SqlDbType.VarChar, 255) { Direction = ParameterDirection.Output };
-                var pNuevoIdForo = new SqlParameter("@NuevoIdForo", SqlDbType.Int) { Direction = ParameterDirection.Output };
-                var pResultado = new SqlParameter("@Resultado", SqlDbType.Bit) { Direction = ParameterDirection.Output };
-
-                cmd.Parameters.Add(pError);
-                cmd.Parameters.Add(pMensaje);
-                cmd.Parameters.Add(pNuevoIdForo);
-                cmd.Parameters.Add(pResultado);
-
+                using var conn = new NpgsqlConnection(_connectionString);
                 await conn.OpenAsync();
-                await cmd.ExecuteNonQueryAsync();
+                
+                const string sqlForo = @"
+            INSERT INTO foro (id_administrador, titulo, descripcion, fecha_registro, espublico, fechaultimamodificacion)
+            VALUES (@AdminId, @Titulo, @Descripcion, @FechaRegistro, @EsPublico, NOW())
+            RETURNING id_foro;
+        ";
 
-                res.Resultado = (bool)pResultado.Value;
-                res.Mensaje = pMensaje.Value?.ToString();
-                res.ForoId = (int)(pNuevoIdForo.Value ?? 0);
-
-                // Si el foro NO es público, insertar los roles asignados en la tabla Foro_Roles
-                if (res.Resultado && !req.EsPublico && req.RolesAsignados != null && req.RolesAsignados.Count > 0)
+                var idForo = await conn.ExecuteScalarAsync<int>(sqlForo, new
                 {
+                    req.AdminId,
+                    req.Titulo,
+                    req.Descripcion,
+                    req.FechaRegistro,
+                    EsPublico = req.EsPublico 
+                });
+
+                res.Resultado = true;
+                res.Mensaje = "Foro creado correctamente.";
+                res.ForoId = idForo;
+                
+                if (!req.EsPublico && req.RolesAsignados != null && req.RolesAsignados.Count > 0)
+                {
+                    const string sqlRol = @"
+                INSERT INTO foro_roles (id_foro, id_rol)
+                VALUES (@IdForo, @IdRol);
+            ";
+
                     foreach (var rolId in req.RolesAsignados)
                     {
-                        using var cmdRoles = new SqlCommand("InsertarForoRol", conn)
-                        {
-                            CommandType = CommandType.StoredProcedure
-                        };
-                        cmdRoles.Parameters.AddWithValue("@IdForo", res.ForoId);
-                        cmdRoles.Parameters.AddWithValue("@IdRol", rolId);
-
-                        await cmdRoles.ExecuteNonQueryAsync();
+                        await conn.ExecuteAsync(sqlRol, new { IdForo = idForo, IdRol = rolId });
                     }
                 }
             }
             catch (Exception ex)
             {
                 res.Resultado = false;
-                res.Mensaje = $"Error en InsertarForo: {ex.Message}";
+                res.Mensaje = $"Error al crear foro: {ex.Message}";
+                res.ListaDeErrores.Add(ex.Message);
             }
 
             return res;
         }
+
 
         /// <summary>
         /// Actualiza un foro y sus roles asignados.
@@ -94,130 +86,114 @@ namespace API.Services
         /// <param name="req">Datos para actualizar el foro, incluyendo roles.</param>
         /// <returns>Resultado con mensaje y estado.</returns>
         public async Task<ResCrearActualizarForo> ActualizarForoAsync(ReqActualizarForo req)
+{
+    var res = new ResCrearActualizarForo
+    {
+        ListaDeErrores = new List<string>()
+    };
+
+    using var conn = new NpgsqlConnection(_connectionString);
+    await conn.OpenAsync();
+
+    using var transaction = await conn.BeginTransactionAsync();
+
+    try
+    {
+        const string sqlUpdateForo = @"
+            UPDATE foro
+            SET id_administrador = @AdminId,
+                titulo = @Titulo,
+                descripcion = @Descripcion,
+                espublico = @EsPublico,
+                fechaultimamodificacion = NOW()
+            WHERE id_foro = @ForoId;
+        ";
+
+        var rowsAffected = await conn.ExecuteAsync(sqlUpdateForo, new
         {
-            var res = new ResCrearActualizarForo();
+            req.AdminId,
+            req.Titulo,
+            req.Descripcion,
+            req.EsPublico,
+            req.ForoId
+        }, transaction);
 
-            try
-            {
-                using var conn = new SqlConnection(_connectionString);
-                await conn.OpenAsync();
-
-                // 1. Actualizar el foro principal
-                using (var cmd = new SqlCommand("ActualizarForo", conn))
-                {
-                    cmd.CommandType = CommandType.StoredProcedure;
-
-                    cmd.Parameters.AddWithValue("@ForoId", req.ForoId);
-                    cmd.Parameters.AddWithValue("@IdAdmin", req.AdminId);
-                    cmd.Parameters.AddWithValue("@Titulo", req.Titulo);
-                    cmd.Parameters.AddWithValue("@Descripcion", req.Descripcion);
-                    cmd.Parameters.AddWithValue("@EsPublico", req.EsPublico);
-
-                    var pError = new SqlParameter("@ErrorOccurred", SqlDbType.Int) { Direction = ParameterDirection.Output };
-                    var pMensaje = new SqlParameter("@ErrorMensaje", SqlDbType.VarChar, 255) { Direction = ParameterDirection.Output };
-                    var pResultado = new SqlParameter("@Resultado", SqlDbType.Bit) { Direction = ParameterDirection.Output };
-
-                    cmd.Parameters.Add(pError);
-                    cmd.Parameters.Add(pMensaje);
-                    cmd.Parameters.Add(pResultado);
-
-                    await cmd.ExecuteNonQueryAsync();
-
-                    res.Resultado = (int)pError.Value == 0 && (bool)pResultado.Value;
-                    res.Mensaje = pMensaje.Value?.ToString() ?? "";
-
-                    if (!res.Resultado)
-                    {
-                        return res; // Error al actualizar el foro
-                    }
-                }
-
-                // 2. Actualizar roles del foro (solo si no es público)
-                if (!req.EsPublico)
-                {
-                    // Para simplificar, pasamos los roles como CSV al SP de roles
-                    var rolesCsv = req.RolesAsignados != null && req.RolesAsignados.Count > 0
-                        ? string.Join(",", req.RolesAsignados)
-                        : "";
-
-                    using var cmdRoles = new SqlCommand("ActualizarForoRoles", conn);
-                    cmdRoles.CommandType = CommandType.StoredProcedure;
-
-                    //Parametros de entrada
-                    cmdRoles.Parameters.AddWithValue("@IdForo", req.ForoId);
-                    cmdRoles.Parameters.AddWithValue("@Roles", rolesCsv);
-
-                    //Parametros de salida
-                    var pErrorRoles = new SqlParameter("@ErrorOccurred", SqlDbType.Int) { Direction = ParameterDirection.Output };
-                    var pMensajeRoles = new SqlParameter("@ErrorMensaje", SqlDbType.VarChar, 255) { Direction = ParameterDirection.Output };
-
-                    cmdRoles.Parameters.Add(pErrorRoles);
-                    cmdRoles.Parameters.Add(pMensajeRoles);
-
-                    await cmdRoles.ExecuteNonQueryAsync();
-
-                    if ((int)pErrorRoles.Value != 0)
-                    {
-                        res.Resultado = false;
-                        res.Mensaje = $"Error actualizando roles: {pMensajeRoles.Value}";
-                        return res;
-                    }
-                }
-                else
-                {
-                    // Si pasamos de privado a público, eliminamos roles asignados para ese foro
-                    using var cmdDeleteRoles = new SqlCommand("DELETE FROM Foro_Roles WHERE id_foro = @IdForo", conn);
-                    cmdDeleteRoles.Parameters.AddWithValue("@IdForo", req.ForoId);
-                    await cmdDeleteRoles.ExecuteNonQueryAsync();
-                }
-
-                res.ForoId = req.ForoId;
-            }
-            catch (Exception ex)
-            {
-                res.Resultado = false;
-                res.Mensaje = $"Error en lógica de actualización: {ex.Message}";
-            }
-
+        if (rowsAffected == 0)
+        {
+            res.Resultado = false;
+            res.Mensaje = "No se encontró el foro a actualizar.";
+            await transaction.RollbackAsync();
             return res;
         }
+
+
+        if (!req.EsPublico)
+        {
+            const string sqlDeleteRoles = @"DELETE FROM foro_roles WHERE id_foro = @IdForo;";
+            await conn.ExecuteAsync(sqlDeleteRoles, new { IdForo = req.ForoId }, transaction);
+            
+            if (req.RolesAsignados != null && req.RolesAsignados.Count > 0)
+            {
+                const string sqlInsertRol = @"INSERT INTO foro_roles (id_foro, id_rol) VALUES (@IdForo, @IdRol);";
+
+                foreach (var rolId in req.RolesAsignados)
+                {
+                    await conn.ExecuteAsync(sqlInsertRol, new { IdForo = req.ForoId, IdRol = rolId }, transaction);
+                }
+            }
+        }
+        else
+        {
+            const string sqlDeleteRoles = @"DELETE FROM foro_roles WHERE id_foro = @IdForo;";
+            await conn.ExecuteAsync(sqlDeleteRoles, new { IdForo = req.ForoId }, transaction);
+        }
+
+        await transaction.CommitAsync();
+
+        res.Resultado = true;
+        res.Mensaje = "Foro actualizado correctamente.";
+        res.ForoId = req.ForoId;
+    }
+    catch (Exception ex)
+    {
+        await transaction.RollbackAsync();
+        res.Resultado = false;
+        res.Mensaje = $"Error al actualizar foro: {ex.Message}";
+        res.ListaDeErrores.Add(ex.Message);
+    }
+
+    return res;
+}
 
         public async Task<ResObtenerForosPorRol> ObtenerForosPorRolAsync(ReqObtenerForosPorRol req)
         {
             var res = new ResObtenerForosPorRol
             {
-                Foros = new List<Foro>()
+                Foros = new List<Foro>(),
+                ListaDeErrores = new List<string>()
             };
+
+            using var conn = new NpgsqlConnection(_connectionString);
+            await conn.OpenAsync();
 
             try
             {
-                using var conn = new SqlConnection(_connectionString);
-                using var cmd = new SqlCommand("ObtenerForosPorRol", conn);
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@IdRol", req.RolId);
+                const string sql = @"
+            SELECT f.id_foro,
+                   f.id_administrador,
+                   f.titulo,
+                   f.descripcion,
+                   f.fecha_registro,
+                   f.fechaultimamodificacion,
+                   f.espublico
+            FROM foro f
+            LEFT JOIN foro_roles fr ON f.id_foro = fr.id_foro
+            WHERE f.espublico = TRUE OR fr.id_rol = @RolId;
+        ";
 
-                await conn.OpenAsync();
+                var foros = await conn.QueryAsync<Foro>(sql, new { RolId = req.RolId });
 
-                using var reader = await cmd.ExecuteReaderAsync();
-
-                while (await reader.ReadAsync())
-                {
-                    var foro = new Foro
-                    {
-                        ForoId = reader.GetInt32(reader.GetOrdinal("id_foro")),
-                        AdminId = reader.GetInt32(reader.GetOrdinal("id_administrador")),
-                        Titulo = reader.GetString(reader.GetOrdinal("titulo")),
-                        Descripcion = reader.GetString(reader.GetOrdinal("descripcion")),
-                        FechaRegistro = reader.GetDateTime(reader.GetOrdinal("fecha_registro")),
-                        FechaUltimaModificacion = reader.IsDBNull(reader.GetOrdinal("FechaUltimaModificacion"))
-                            ? (DateTime?)null
-                            : reader.GetDateTime(reader.GetOrdinal("FechaUltimaModificacion")),
-                        EsPublico = reader.GetBoolean(reader.GetOrdinal("espublico")),
-                    };
-
-                    res.Foros.Add(foro);
-                }
-
+                res.Foros = foros.ToList();
                 res.Resultado = true;
                 res.Mensaje = "Foros obtenidos correctamente.";
             }
@@ -225,61 +201,76 @@ namespace API.Services
             {
                 res.Resultado = false;
                 res.Mensaje = $"Error al obtener foros: {ex.Message}";
+                res.ListaDeErrores.Add(ex.Message);
             }
 
             return res;
         }
 
         public async Task<ResEliminarForo> EliminarForoAsync(ReqEliminarForo req)
+{
+    var res = new ResEliminarForo
+    {
+        ListaDeErrores = new List<string>()
+    };
+
+    using var conn = new NpgsqlConnection(_connectionString);
+    await conn.OpenAsync();
+
+    using var transaction = await conn.BeginTransactionAsync();
+
+    try
+    {
+        const string sqlCheck = @"
+            SELECT COUNT(*) 
+            FROM foro 
+            WHERE id_foro = @ForoId AND id_administrador = @AdminId;
+        ";
+
+        var exists = await conn.ExecuteScalarAsync<int>(sqlCheck, new
         {
-            var res = new ResEliminarForo();
+            req.ForoId,
+            req.AdminId
+        }, transaction);
 
-            try
-            {
-                using (var conn = new SqlConnection(_connectionString))
-                using (var cmd = new SqlCommand("EliminarForo", conn))
-                {
-                    cmd.CommandType = CommandType.StoredProcedure;
-
-                    // Parámetros de entrada
-                    cmd.Parameters.AddWithValue("@ForoId", req.ForoId);
-                    cmd.Parameters.AddWithValue("@IdAdmin", req.AdminId);
-
-                    // Parámetros de salida
-                    var pError = new SqlParameter("@ErrorOccurred", SqlDbType.Int) { Direction = ParameterDirection.Output };
-                    var pMensaje = new SqlParameter("@ErrorMensaje", SqlDbType.VarChar, 255) { Direction = ParameterDirection.Output };
-                    var pResultado = new SqlParameter("@Resultado", SqlDbType.Bit) { Direction = ParameterDirection.Output };
-
-                    cmd.Parameters.Add(pError);
-                    cmd.Parameters.Add(pMensaje);
-                    cmd.Parameters.Add(pResultado);
-
-                    await conn.OpenAsync();
-                    await cmd.ExecuteNonQueryAsync();
-
-                    // Leer valores de salida
-                    var errorOccurred = (int)pError.Value;
-                    var mensaje = pMensaje.Value?.ToString();
-                    var resultado = (bool)pResultado.Value;
-
-                    res.Resultado = resultado && errorOccurred == 0;
-                    res.Mensaje = mensaje ?? (res.Resultado ? "Foro eliminado correctamente." : "Error desconocido.");
-
-                    if (!res.Resultado && errorOccurred != 0)
-                    {
-                        res.ListaDeErrores = new List<string> { mensaje };
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                res.Resultado = false;
-                res.Mensaje = $"Error en servidor: {ex.Message}";
-                res.ListaDeErrores = new List<string> { ex.ToString() };
-            }
-
+        if (exists == 0)
+        {
+            res.Resultado = false;
+            res.Mensaje = "No se encontró el foro o no pertenece al administrador.";
+            await transaction.RollbackAsync();
             return res;
         }
+        
+        const string sqlDeleteRoles = @"DELETE FROM foro_roles WHERE id_foro = @ForoId;";
+        await conn.ExecuteAsync(sqlDeleteRoles, new { req.ForoId }, transaction);
+        
+        const string sqlDeleteForo = @"DELETE FROM foro WHERE id_foro = @ForoId;";
+        var rowsAffected = await conn.ExecuteAsync(sqlDeleteForo, new { req.ForoId }, transaction);
+
+        if (rowsAffected == 0)
+        {
+            res.Resultado = false;
+            res.Mensaje = "No se pudo eliminar el foro.";
+            await transaction.RollbackAsync();
+            return res;
+        }
+
+        await transaction.CommitAsync();
+
+        res.Resultado = true;
+        res.Mensaje = "Foro eliminado correctamente.";
+        
+    }
+    catch (Exception ex)
+    {
+        await transaction.RollbackAsync();
+        res.Resultado = false;
+        res.Mensaje = $"Error al eliminar foro: {ex.Message}";
+        res.ListaDeErrores.Add(ex.Message);
+    }
+
+    return res;
+}
 
     }
 }
