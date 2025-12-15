@@ -1,34 +1,39 @@
+/**
+ * Layout principal protegido del módulo ACEDEMA
+ *
+ * ¿Qué hace?
+ * Verifica si el usuario está autenticado antes de permitir el acceso
+ * a cualquier página dentro del módulo acedemaApp.
+ * Si el usuario no está autenticado o su sesión es inválida,
+ * se cierra la sesión y se redirige al login.
+ *
+ * Se utiliza como layout raíz de todas las vistas internas del sistema
+ * (Administrador, Profesor y Estudiante), asegurando que solo usuarios autenticados puedan acceder a ellas.
+ * Existe para centralizar la validación de autenticación en un solo lugar, evitando repetir la lógica de protección en cada página.
+ */
 'use client';
 
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { isAuthenticated } from '@/lib/auth';
+import { requireAuth, logout } from '@/lib/auth';
 
 export default function AcedemaLayout({ children }: { children: React.ReactNode }) {
-  const router = useRouter();
-  const [cargando, setCargando] = useState(true);
+    const router = useRouter();
+    const [cargando, setCargando] = useState(true);
 
     useEffect(() => {
-        // Verifica si se trabaja en localhost
-        const isLocalhost =
-            typeof window !== 'undefined' &&
-            (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1');
+        //Verifica la autenticación del usuario al cargar el layout
+        const check = requireAuth();
 
-        // Si estoy en localhost, omite la validacion y deja ver las paginas 
-        if (isLocalhost) {
-            setCargando(false);
+        if (!check.ok) {
+            logout();
+            router.replace('/login');
             return;
         }
+//Estado que evita renderizar la vista hasta confirmar la autenticación
+        setCargando(false);
+    }, [router]);
 
-        // Si no, aplica la validacion normal
-        if (!isAuthenticated()) {
-            router.push('/login');
-        } else {
-            setCargando(false);
-        }
-    }, []);
-
-    if (cargando) return null; // o un loader
-
+    if (cargando) return null;
     return <>{children}</>;
 }

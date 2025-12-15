@@ -1,0 +1,161 @@
+.page {
+    padding-top: 2rem;
+    background: #f5f7fa;
+}
+
+.container {
+    max-width: 1536px;
+    margin: 0 auto;
+    padding: 2rem 1.5rem;
+}
+
+/* HERO */
+.hero {
+    margin-bottom: 2rem;
+}
+
+.eyebrow {
+    text-transform: uppercase;
+    color: #001636;
+    font-size: 0.85rem;
+    letter-spacing: 0.12em;
+    margin-bottom: 0.3rem;
+}
+
+.title {
+    font-family: var(--font-bebas-neue);
+    font-size: 3rem;
+    margin-bottom: 0.5rem;
+    color: #001636;
+}
+
+.subtitle {
+    font-size: 1.1rem;
+    color: #4b5563;
+    max-width: 700px;
+}
+
+/* PLAYER */
+.playerSection {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 2rem;
+    margin-bottom: 3rem;
+}
+
+.playerWrapper {
+    position: relative;
+    width: 100%;
+    padding-top: 56.25%; /* 16:9 */
+    background: #000;
+    border-radius: 1rem;
+    overflow: hidden;
+}
+
+.playerWrapper iframe {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    border: none;
+}
+
+.playerInfo h2 {
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+.playerCategory {
+    font-size: 0.9rem;
+    color: #c38611;
+    text-transform: uppercase;
+    margin: 0.3rem 0 0.7rem;
+}
+
+.playerDescription {
+    font-size: 0.95rem;
+    color: #4b5563;
+}
+
+/* GRID */
+.gridSection {
+    margin-bottom: 3rem;
+}
+
+.sectionTitle {
+    font-family: var(--font-bebas-neue);
+    font-size: 2.3rem;
+    margin-bottom: 1rem;
+}
+
+.videosGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 1.2rem;
+}
+
+.videoCard {
+    border-radius: 1rem;
+    overflow: hidden;
+    border: 1px solid #e5e7eb;
+    background: white;
+    cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.videoCard:hover {
+    transform: translateY(-4px);
+    box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.08);
+}
+
+.videoCardActive {
+    border-color: #c38611;
+    box-shadow: 0px 0px 10px rgba(195, 134, 17, 0.3);
+}
+
+.thumbWrapper {
+    position: relative;
+    width: 100%;
+    height: 150px;
+    overflow: hidden;
+}
+
+.thumbWrapper img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.duration {
+    position: absolute;
+    bottom: 8px;
+    right: 8px;
+    background: rgba(0, 0, 0, 0.7);
+    color: white;
+    padding: 0.2rem 0.4rem;
+    font-size: 0.75rem;
+    border-radius: 6px;
+}
+
+.cardText {
+    padding: 0.8rem 1rem;
+}
+
+.category {
+    font-size: 0.75rem;
+    color: #c38611;
+    text-transform: uppercase;
+}
+
+.cardText h3 {
+    margin-top: 0.3rem;
+    font-size: 1.05rem;
+    color: #001636;
+}
+
+/* RESPONSIVE */
+@media (max-width: 900px) {
+    .playerSection {
+        grid-template-columns: 1fr;
+    }
+}

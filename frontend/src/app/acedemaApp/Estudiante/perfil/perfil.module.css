@@ -1,0 +1,277 @@
+/* Igual que matrícula y cursos */
+.container {
+    padding: 3rem 0;
+    max-width: 1536px;
+    margin: 0 auto;
+    background: #fff;
+    border-radius: 2rem;
+}
+
+.profileLayout {
+    display: grid;
+    grid-template-columns: minmax(0, 3fr) minmax(0, 2.5fr);
+    gap: 2rem;
+}
+
+.profileWrapper {
+    width: 100%;
+    max-width: 11000px;
+    margin: 0 auto;
+    padding: 2rem 3rem 3rem;
+    border-radius: 1.5rem;
+    background: rgba(255, 255, 255, 0.95);
+}
+
+/* Columna izquierda */
+
+.leftColumn {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.header {
+    display: flex;
+    gap: 1.25rem;
+    align-items: center;
+}
+
+.avatar {
+    width: 80px;
+    height: 80px;
+    border-radius: 999px;
+    background: #0b1120;
+    color: #f9fafb;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 1.7rem;
+}
+
+.sectionLabel {
+    font-size: 0.8rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: #64748b;
+    margin-bottom: 0.25rem;
+}
+
+.name {
+    font-size: 1.6rem;
+    font-weight: 700;
+    margin-bottom: 0.1rem;
+    color: #020617;
+}
+
+.role {
+    font-size: 0.95rem;
+    font-weight: 500;
+    color: #0f172a;
+}
+
+.email {
+    font-size: 0.9rem;
+    color: #64748b;
+}
+
+.actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+}
+
+.primaryButton {
+    padding: 0.5rem 1.4rem;
+    border-radius: 999px;
+    border: none;
+    cursor: pointer;
+    background: #001a3d;
+    color: #facc15;
+    font-size: 0.9rem;
+    font-weight: 600;
+}
+
+.secondaryButton {
+    padding: 0.45rem 1.1rem;
+    border-radius: 999px;
+    border: 1px solid #cbd5f5;
+    background: #edf2ff;
+    color: #1e293b;
+    font-size: 0.85rem;
+    cursor: pointer;
+}
+
+/* Tabs */
+
+.tabs {
+    display: flex;
+    gap: 0.75rem;
+    border-bottom: 1px solid #e5e7eb;
+    padding-bottom: 0.3rem;
+}
+
+.tabButton {
+    border: none;
+    background: transparent;
+    padding: 0.4rem 1rem;
+    border-radius: 999px;
+    font-size: 0.9rem;
+    cursor: pointer;
+    color: var(--text-muted);
+}
+
+.tabButtonActive {
+    background: #f1f5f9;
+    color: var(--text-dark);
+    font-weight: 600;
+}
+
+.tabContent {
+    margin-top: 1rem;
+}
+
+/* Textos comunes */
+
+.subTitle {
+    font-size: 1.05rem;
+    font-weight: 600;
+    color: #020617;
+    margin-bottom: 0.25rem;
+}
+
+.helperText {
+    font-size: 0.88rem;
+    color: #6b7280;
+    margin-bottom: 0.9rem;
+}
+
+/* CURSOS */
+
+.coursesPanel {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.coursesGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+    gap: 0.9rem;
+}
+
+.courseCard {
+    padding: 0.9rem;
+    border-radius: 20px;
+    border: 1px solid #e5e7eb;
+    background: #f9fafb;
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+}
+
+.courseStatus {
+    font-size: 0.8rem;
+    color: #64748b;
+}
+
+.courseButton {
+    margin-top: 0.3rem;
+    align-self: flex-start;
+    padding: 0.35rem 0.8rem;
+    border-radius: 999px;
+    border: none;
+    background: #e0e7ff;
+    font-size: 0.8rem;
+    cursor: pointer;
+}
+
+/* INFO PERSONAL */
+
+.infoPanel {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.infoGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 0.9rem;
+}
+
+.infoItem {
+    padding: 0.75rem 0.9rem;
+    border-radius: 18px;
+    background: #f9fafb;
+    border: 1px solid #e5e7eb;
+    display: flex;
+    flex-direction: column;
+    gap: 0.15rem;
+}
+
+.infoLabel {
+    font-size: 0.75rem;
+    color: #9ca3af;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+}
+
+.infoValue {
+    font-size: 0.92rem;
+    color: #111827;
+}
+
+/* SETTINGS */
+
+.settingsPanel {
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+}
+
+/* Columna derecha: imagen */
+
+.rightColumn {
+    position: relative;
+    border-radius: 24px;
+    overflow: hidden;
+    min-height: 260px;
+}
+
+.image {
+    object-fit: cover;
+}
+
+/* Responsive */
+
+@media (max-width: 900px) {
+    .profileLayout {
+        grid-template-columns: 1fr;
+    }
+
+    .profileWrapper {
+        padding: 2rem;
+    }
+
+    .rightColumn {
+        order: -1;
+        height: 220px;
+    }
+}
+
+
+@media (max-width: 640px) {
+    .container {
+        padding-inline: 1rem;
+    }
+
+    .profileWrapper {
+        padding: 1.8rem 1.4rem;
+        border-radius: 24px;
+    }
+
+    .header {
+        align-items: flex-start;
+    }
+}

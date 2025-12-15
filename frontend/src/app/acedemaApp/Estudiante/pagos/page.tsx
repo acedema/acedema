@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import styles from './pagos.module.css';
-import Navbar from '@/components/EstuNavbar';
+import Navbar from '@/components/Navbar';
 import { FiSmartphone, FiDollarSign, FiChevronDown, FiCheck,FiUpload} from 'react-icons/fi';
 
 const SubirComprobantePage: React.FC = () => {
@@ -105,7 +105,7 @@ const SubirComprobantePage: React.FC = () => {
 
     return (
         <div className={styles.page}>
-             <Navbar />
+            <Navbar />
             
             {toast && (
                 <div className={`${styles.toast} ${toast.tipo === 'error' ? styles.toastError : styles.toastSuccess}`}>
