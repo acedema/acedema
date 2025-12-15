@@ -12,6 +12,19 @@ interface Persona {
     fechaRegistro: string;
 }
 
+// Mostrar de manera correcta las fechas en el front
+function formatDate(value?: string) {
+    if (!value) return 'No registrado';
+
+    // Maneja YYYY-MM-DD o YYYY-MM-DDTHH:mm:ss
+    const datePart = value.split('T')[0];
+    const [y, m, d] = datePart.split('-');
+
+    if (!y || !m || !d) return value;
+
+    return `${d}/${m}/${y}`;
+}
+
 export default function PersonalInfoPanel({ persona }: { persona: Persona }) {
     return (
         <div className={styles.infoPanel}>
@@ -20,13 +33,13 @@ export default function PersonalInfoPanel({ persona }: { persona: Persona }) {
 
             <div className={styles.infoGrid}>
                 <InfoItem label="Cédula" value={persona.numCedula} />
-                <InfoItem label="Fecha de nacimiento" value={persona.fechaNacimiento} />
+                <InfoItem label="Fecha de nacimiento" value={formatDate(persona.fechaNacimiento)} />
                 <InfoItem label="Dirección" value={persona.direccion} />
                 <InfoItem label="Teléfono 1" value={persona.telefono1} />
                 <InfoItem label="Teléfono 2" value={persona.telefono2 || 'No registrado'} />
                 <InfoItem label="Correo" value={persona.correo} />
                 <InfoItem label="Cédula responsable" value={persona.cedulaResponsable || 'No aplica'} />
-                <InfoItem label="Miembro desde" value={persona.fechaRegistro} />
+                <InfoItem label="Miembro desde" value={formatDate(persona.fechaRegistro)} />
             </div>
         </div>
     );

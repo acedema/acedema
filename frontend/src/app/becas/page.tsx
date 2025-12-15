@@ -45,7 +45,7 @@ export default function BecasPage() {
 
                         <div className={styles.heroImageWrapper}>
                             <Image
-                                src="/principal.jpg"
+                                src="/ctaimg.jpg"
                                 alt="Estudiantes de ACEDEMA"
                                 fill
                                 className={styles.heroImage}
