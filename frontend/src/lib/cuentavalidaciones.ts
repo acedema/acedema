@@ -4,7 +4,7 @@ export const cuentaRules: Record<
     string,
     { required?: boolean; min?: number; label: string }
 > = {
-    numCedula: { required: true, label: 'La cédula' },
+    numCedula: { required: true, min: 9,label: 'La cédula' },
     fechaNacimiento: { required: true, label: 'La fecha de nacimiento' },
     primerNombre: { required: true, min: 2, label: 'El primer nombre' },
     primerApellido: { required: true, min: 2, label: 'El primer apellido' },
