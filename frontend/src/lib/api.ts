@@ -12,11 +12,28 @@
  * -Actualizar información del usuario
  */
 
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5069/api";
+const API_BASE_URL =
+    process.env.NEXT_PUBLIC_API_URL || "http://localhost:5069/api";
 
 function getToken() {
     if (typeof window === "undefined") return null;
     return localStorage.getItem("token");
+}
+
+/**
+ * Intenta parsear la respuesta como JSON.
+ */
+async function parseResponse(res: Response) {
+    if (res.status === 204) return null;
+
+    const text = await res.text();
+    if (!text) return null;
+
+    try {
+        return JSON.parse(text);
+    } catch {
+        return text;
+    }
 }
 
 /**
@@ -34,12 +51,15 @@ export async function fetchData<T>(endpoint: string): Promise<T> {
         cache: "no-store",
     });
 
+    const data = await parseResponse(res);
+
     if (!res.ok) {
-        const text = await res.text();
-        throw new Error(`Error fetching ${endpoint}: ${res.status} ${text}`);
+        throw new Error(
+            `Error fetching ${endpoint}: ${res.status} ${String(data)}`
+        );
     }
 
-    return res.json();
+    return data as T;
 }
 
 /**
@@ -59,13 +79,16 @@ export async function sendData<T>(
             "Content-Type": "application/json",
             ...(token ? { Authorization: `Bearer ${token}` } : {}),
         },
-        body: body ? JSON.stringify(body) : undefined,
+        body: body !== undefined ? JSON.stringify(body) : undefined,
     });
 
+    const data = await parseResponse(res);
+
     if (!res.ok) {
-        const text = await res.text();
-        throw new Error(`Error ${method} ${endpoint}: ${res.status} ${text}`);
+        throw new Error(
+            `Error ${method} ${endpoint}: ${res.status} ${String(data)}`
+        );
     }
 
-    return res.json();
+    return data as T;
 }
