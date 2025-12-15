@@ -1,24 +1,43 @@
+/**
+ * Página inicial del módulo ACEDEMA
+ *
+ * ¿Qué hace?
+ * Determina el rol del usuario autenticado y lo redirige automáticamente
+ * a la sección correspondiente del sistema (Administrador, Profesor o Estudiante).
+ *
+ * Se utiliza como punto de entrada principal al sistema después del login,
+ * funcionando como un enrutador por rol.
+ */
+
 'use client';
 
 import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import { getCurrentUser } from '@/lib/auth';
+import { requireAuth, logout } from '@/lib/auth';
 
 export default function AcedemaInicio() {
-  const router = useRouter();
-  const sesion = getCurrentUser(); //
+    const router = useRouter();
 
-  useEffect(() => {
-    if (!sesion) {
-      router.push('/login');
-    }
-  }, [sesion]);
+    useEffect(() => {
+        // Redirección automática según el rol del usuario autenticado
+        const check = requireAuth();
 
-  return (
-    <div>
-      <h1>Bienvenido a Acedema</h1>
-      <p>Hola {sesion?.nombre}, estás logueado como <strong>{sesion?.rol}</strong>.</p>
-    </div>
-  );
+        if (!check.ok) {
+            logout();
+            router.replace('/login');
+            return;
+        }
+
+        const rol = check.auth.rol;
+
+        if (rol === 'admin') {
+            router.replace('/acedemaApp/Administrador');
+        } else if (rol === 'profesor') {
+            router.replace('/acedemaApp/Profesor');
+        } else {
+            router.replace('/acedemaApp/Estudiante');
+        }
+    }, [router]);
+
+    return null;
 }
-

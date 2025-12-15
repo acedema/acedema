@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import { saveSession } from '@/lib/auth';
+import { saveAuth } from '@/lib/auth';
 import styles from './login.module.css';
 import Image from 'next/image';
 import Navbar from '@/components/Navbar';
@@ -106,16 +106,11 @@ export default function LoginPage() {
 
             const data: LoginResponse = await res.json();
 
-            // Guarda token y usuario para el resto de la app
-            if (typeof window !== 'undefined') {
-                localStorage.setItem('token', data.token);
-                localStorage.setItem('usuario', JSON.stringify(data.usuario));
-            }
+            // Guarda sesión (token y usuario)
+            saveAuth(data.token, data.usuario);
 
             const rol = mapRol(data.usuario.idRol);
             const nombre = `${data.usuario.primerNombre} ${data.usuario.primerApellido}`;
-            
-            saveSession({ nombre, rol });
 
             // Mostrar "Ingresando..." por 1.2 segundos
             await new Promise((resolve) => setTimeout(resolve, 1200));
