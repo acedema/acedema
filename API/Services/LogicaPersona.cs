@@ -3,6 +3,7 @@ using API.Models.Request;
 using API.Models.Response;
 using Npgsql;
 using System.Data;
+using System.Text;
 using Dapper;
 
 namespace API.Services
@@ -339,6 +340,7 @@ namespace API.Services
                     res.Password = passwordPlano;
                     res.Persona = req.Persona;
                     res.Persona.PersonaId = idReturn.Value;
+                    res.PasswordTemporal = passwordPlano;
                 }
                 else
                 {
@@ -624,61 +626,98 @@ namespace API.Services
         /// <param name="req">The request object containing the updated profile data.</param>
         /// <returns>A Result object indicating success or failure.</returns>
         public async Task<ResActualizarPerfil> ActualizarPerfilAsync(string email, ReqActualizarPerfil req)
+{
+    var res = new ResActualizarPerfil();
+    var parameters = new DynamicParameters();
+    var updateClauses = new List<string>();
+
+    if (req.FechaNacimiento != default)
+    {
+        updateClauses.Add("fecha_nacimiento = @FechaNacimiento");
+        parameters.Add("FechaNacimiento", req.FechaNacimiento, DbType.DateTime);
+    }
+
+    if (!string.IsNullOrWhiteSpace(req.PrimerNombre))
+    {
+        updateClauses.Add("primer_nombre = @PrimerNombre");
+        parameters.Add("PrimerNombre", req.PrimerNombre, DbType.String);
+    }
+
+    if (!string.IsNullOrWhiteSpace(req.SegundoNombre))
+    {
+        updateClauses.Add("segundo_nombre = @SegundoNombre");
+        parameters.Add("SegundoNombre", req.SegundoNombre, DbType.String);
+    }
+
+    if (!string.IsNullOrWhiteSpace(req.PrimerApellido))
+    {
+        updateClauses.Add("primer_apellido = @PrimerApellido");
+        parameters.Add("PrimerApellido", req.PrimerApellido, DbType.String);
+    }
+
+    if (!string.IsNullOrWhiteSpace(req.SegundoApellido))
+    {
+        updateClauses.Add("segundo_apellido = @SegundoApellido");
+        parameters.Add("SegundoApellido", req.SegundoApellido, DbType.String);
+    }
+
+    if (!string.IsNullOrWhiteSpace(req.Direccion))
+    {
+        updateClauses.Add("direccion = @Direccion");
+        parameters.Add("Direccion", req.Direccion, DbType.String);
+    }
+
+    if (req.Telefono1 != 0)
+    {
+        updateClauses.Add("telefono_1 = @Telefono1");
+        parameters.Add("Telefono1", req.Telefono1);
+    }
+
+    if (req.Telefono2 != 0)
+    {
+        updateClauses.Add("telefono_2 = @Telefono2");
+        parameters.Add("Telefono2", req.Telefono2);
+    }
+
+    if (updateClauses.Count == 0)
+    {
+        res.Resultado = true;
+        res.Mensaje = "No se enviaron datos nuevos para actualizar.";
+        return res;
+    }
+
+    var sqlBuilder = new StringBuilder();
+    sqlBuilder.Append("UPDATE persona SET ");
+    sqlBuilder.Append(string.Join(", ", updateClauses));
+    sqlBuilder.Append(" WHERE correo = @Email;");
+
+    parameters.Add("Email", email, DbType.String);
+
+    try
+    {
+        using (var conn = new NpgsqlConnection(_connectionString))
         {
-            var res = new ResActualizarPerfil();
+            var rowsAffected = await conn.ExecuteAsync(sqlBuilder.ToString(), parameters);
 
-            const string sql = """
-                               UPDATE persona
-                               SET
-                               fecha_nacimiento = @FechaNacimiento,
-                               primer_nombre = @PrimerNombre,
-                               segundo_nombre = @SegundoNombre,
-                               primer_apellido = @PrimerApellido,
-                               segundo_apellido = @SegundoApellido,
-                               direccion = @Direccion,
-                               telefono_1 = @Telefono1,
-                               telefono_2 = @Telefono2
-                               WHERE correo = @Email;
-                               """;
-
-            var parameters = new DynamicParameters();
-            if (!string.IsNullOrWhiteSpace(req.FechaNacimiento.ToString())) parameters.Add("FechaNacimiento", req.FechaNacimiento, DbType.DateTime);
-            if (!string.IsNullOrWhiteSpace(req.PrimerApellido)) parameters.Add("PrimerNombre", req.PrimerApellido, DbType.String);
-            if (!string.IsNullOrWhiteSpace(req.SegundoNombre)) parameters.Add("SegundoNombre", req.SegundoNombre, DbType.String);
-            if (!string.IsNullOrWhiteSpace(req.PrimerApellido)) parameters.Add("PrimerApellido", req.PrimerApellido, DbType.String);
-            if (!string.IsNullOrWhiteSpace(req.SegundoApellido)) parameters.Add("SegundoApellido", req.SegundoApellido, DbType.String);
-            if (!string.IsNullOrWhiteSpace(req.Direccion)) parameters.Add("Direccion", req.Direccion, DbType.String);
-            if (req.Telefono1 != 0) parameters.Add("Telefono1", req.Telefono1);
-            if (req.Telefono1 != 0) parameters.Add("Telefono2", req.Telefono2);
-            parameters.Add("Email", email, DbType.String);
-
-            try
-            {
-                using (var conn = new NpgsqlConnection(_connectionString))
-                {
-                    var rowsAffected = await conn.ExecuteAsync(sql, parameters);
-
-
-                    if (rowsAffected != 1)
-                    {
-                        res.Resultado = false;
-                        res.ListaDeErrores.Add(
-                            "Error: El usuario no se encontró o no se realizó ninguna actualización");
-                    }
-                    else
-                    {
-                        res.Resultado = true;
-                        res.Mensaje = "Perfil actualizado con éxito.";
-                    }
-                }
-            }
-            catch (Exception ex)
+            if (rowsAffected == 0)
             {
                 res.Resultado = false;
-                res.ListaDeErrores.Add($"Error de base de datos al actualizar el perfil: {ex.Message}");
+                res.ListaDeErrores.Add("Error: El usuario no se encontró.");
             }
-
-            return res;
+            else
+            {
+                res.Resultado = true;
+                res.Mensaje = "Perfil actualizado con éxito.";
+            }
         }
+    }
+    catch (Exception ex)
+    {
+        res.Resultado = false;
+        res.ListaDeErrores.Add($"Error de base de datos al actualizar el perfil: {ex.Message}");
+    }
+
+    return res;
+}
     }
 }

@@ -6,6 +6,7 @@ import Navbar from '@/components/AdminNavbar';
 import styles from '../crearCuenta/cuenta.module.css';
 import DatePicker from "react-datepicker";
 import { cuentaRules, validateCuenta } from "@/lib/cuentavalidaciones";
+import { useRef } from 'react';
 
 
 const API_REGISTER_URL = 'http://localhost:5069/api/Persona/registrarPersona';
@@ -45,6 +46,7 @@ type ToastType = 'success' | 'error' | 'warning';
 type ToastState = {
     message: string;
     type: ToastType;
+    copyText?: string;
 } | null;
 
 export default function CrearCuentaPage() {
@@ -55,14 +57,25 @@ export default function CrearCuentaPage() {
     const [loading, setLoading] = useState(false);
     const [openRol, setOpenRol] = useState(false);
     const [toast, setToast] = useState<ToastState>(null);
+    const toastTimerRef = useRef<number | null>(null);
 
-    const showToast = (message: string, type: ToastType = 'success') => {
-        setToast({ message, type });
-        setTimeout(() => {
+    const showToast = (
+        message: string,
+        type: ToastType = 'success',
+        duration: number = 3500,
+        copyText?: string
+    ) => {
+        setToast({ message, type, copyText });
+
+        if (toastTimerRef.current) window.clearTimeout(toastTimerRef.current);
+
+        toastTimerRef.current = window.setTimeout(() => {
             setToast(null);
-        }, 3500);
+            toastTimerRef.current = null;
+        }, duration);
     };
-    
+
+
     const handleChange = (
         e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
     ) => {
@@ -73,7 +86,7 @@ export default function CrearCuentaPage() {
     const handleSubmit = async (e: FormEvent) => {
         e.preventDefault();
 
-        // Validaciun con reglas
+        // Validacion con reglas
         const errors = validateCuenta(form, cuentaRules);
         if (errors.length > 0) {
             showToast(errors[0], 'warning'); 
@@ -106,9 +119,7 @@ export default function CrearCuentaPage() {
         };
 
         const payload = { persona };
-
-
-
+        
         try {
             setLoading(true);
 
@@ -121,8 +132,10 @@ export default function CrearCuentaPage() {
                 body: JSON.stringify(payload),
             });
 
+            const data = await res.json().catch(() => null);
+            console.log('Respuesta registrarPersona:', data); 
+
             if (!res.ok) {
-                const data = await res.json().catch(() => null);
                 const msg =
                     data?.mensaje ||
                     data?.message ||
@@ -131,7 +144,19 @@ export default function CrearCuentaPage() {
                 return;
             }
 
-            showToast('Cuenta creada correctamente.', 'success');
+            // Aca se lee el campo que se manda desde el backend
+            const tempPassword: string | undefined = data.passwordTemporal;
+
+            if (tempPassword) {
+                showToast(
+                    `Cuenta creada.\nContraseña temporal: ${tempPassword}`,
+                    'success',
+                    6000,       
+                    tempPassword 
+                );
+            } else {
+                showToast('Cuenta creada correctamente (sin contraseña temporal en respuesta).', 'warning');
+            }
             
             // limpiar formulario
             setForm(initialForm);
@@ -164,12 +189,37 @@ export default function CrearCuentaPage() {
     return (
         <div className={styles.cuenta}>
             <Navbar />
-            {/* TOAST */}
             {toast && (
-                <div className={`${styles.toast} ${styles[toast.type]}`}>
-                    {toast.message}
+                <div
+                    className={`${styles.toast} ${styles[toast.type]}`}
+                    style={{
+                        ['--toast-duration' as any]:
+                            toast.type === 'success' ? '6s' : '3s'
+                    }}
+                >
+                    <div className={styles.toastContent}>
+                        <span className={styles.toastText}>{toast.message}</span>
+
+                        {toast.copyText && (
+                            <button
+                                type="button"
+                                className={styles.toastCopyBtn}
+                                onClick={async () => {
+                                    try {
+                                        await navigator.clipboard.writeText(toast.copyText!);
+                                        showToast('Copiado', 'success', 2000);
+                                    } catch {
+                                        showToast('No se pudo copiar.', 'warning', 2500);
+                                    }
+                                }}
+                            >
+                                Copiar
+                            </button>
+                        )}
+                    </div>
                 </div>
             )}
+
             <main className={styles.cuentaWrapper}>
                 <section className={styles.cuentaBox}>
                     {/* formulario */}

@@ -31,8 +31,8 @@
     border: 1px solid #e3e7ef;
     box-shadow: 0 8px 30px rgba(0, 0, 0, 0.06);
     opacity: 1;
-    transform: translateY(0);
     transition: opacity 0.4s ease, transform 0.4s ease;
+    transform: translateY(-20px);
 }
 
 .fadeOut {
@@ -67,7 +67,7 @@
 }
 
 .password a {
-    color: #c38611;
+    color: #001636;
     font-weight: 600;
     text-decoration: none;
 }
@@ -75,6 +75,7 @@
 .password a:hover {
     text-decoration: underline;
 }
+
 
 .createAccount {
     margin-top: 1rem;
@@ -172,7 +173,7 @@
 .eyeIcon {
     position: absolute;
     right: 1rem;
-    top: 40%;
+    top: 35%;
     transform: translateY(-50%);
     cursor: pointer;
     font-size: 1.2rem;
@@ -288,7 +289,7 @@
     }
 
     .loginImage {
-        min-height: 220px;
+        min-height: 250px;
         padding: 0.5rem 0;
     }
 
