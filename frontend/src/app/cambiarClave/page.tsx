@@ -8,7 +8,7 @@ import { useEffect } from 'react';
 import { cambiarClaveRules, validateCambiarClave } from "@/lib/cambiarClaveValidaciones";
 
 
-const API_CAMBIAR_CLAVE = "http://localhost:5069/api/Persona/cambiar-clave-inicial";
+const API_CAMBIAR_CLAVE = "https://api-dev.acedema.upway.solutions/api/Persona/cambiar-clave-inicial";
 
 type ToastType = 'success' | 'error' | 'warning';
 
