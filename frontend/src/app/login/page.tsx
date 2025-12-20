@@ -9,7 +9,7 @@ import Navbar from '@/components/Navbar';
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 
 
-const API_LOGIN_URL = 'http://localhost:5069/api/Persona/login';
+const API_LOGIN_URL = 'https://api-dev.acedema.upway.solutions/api/Persona/login';
 
 type RolApp = 'estudiante' | 'admin' | 'profesor';
 

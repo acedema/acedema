@@ -9,7 +9,7 @@ import { cuentaRules, validateCuenta } from "@/lib/cuentavalidaciones";
 import { useRef } from 'react';
 
 
-const API_REGISTER_URL = 'http://localhost:5069/api/Persona/registrarPersona';
+const API_REGISTER_URL = 'https://api-dev.acedema.upway.solutions/api/Persona/registrarPersona';
 
 type PersonaForm = {
     numCedula: string;

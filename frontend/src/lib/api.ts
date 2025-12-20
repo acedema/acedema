@@ -12,7 +12,7 @@
  * -Actualizar información del usuario
  */
 
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5069/api";
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || "https://api-dev.acedema.upway.solutions/api";
 
 function getToken() {
     if (typeof window === "undefined") return null;

@@ -85,7 +85,7 @@ const SubirComprobantePage: React.FC = () => {
             formData.append('descripcion', descripcion);
 
             // TODO: cuando el backend esté listo, descomenta y ajusta la URL:
-            // await fetch('http://localhost:5069/api/Comprobantes', {
+            // await fetch('https://api-dev.acedema.upway.solutions/api/Comprobantes', {
             //     method: 'POST',
             //     body: formData,
             // });
